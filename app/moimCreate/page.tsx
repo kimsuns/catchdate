@@ -1,6 +1,27 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 export default function MoimCreate() {
+  const [date, setDate] = useState({
+    title: "",
+    status: "",
+    members: [
+      {
+        memberId: "",
+        name: "",
+        dates: "",
+        choose: false,
+      },
+    ],
+    startDate: "",
+    endDate: "",
+    time: "",
+    pickDate: [],
+    top3: [],
+  });
+
   return (
     <div className="flex flex-col items-center">
       <section className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
@@ -9,14 +30,16 @@ export default function MoimCreate() {
         </Link>
         <span>모임 생성하기</span>
       </section>
+
       <section className="flex flex-col p-6 justify-center  gap-10 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
-        <div>
+        <section>
           <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
             1. 모임명을 입력하세요.
           </span>
           <input placeholder="모임 이름을 입력하세요." />
-        </div>
-        <div>
+        </section>
+
+        <section>
           <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
             2. 참여자를 입력하세요. (최대 10명)
           </span>
@@ -26,8 +49,9 @@ export default function MoimCreate() {
             선영이, 초딩이, 다혜이, 지훈이, 승환이, 갑호이, 현켠이, 예원이,
             친구이, 친구삼
           </div>
-        </div>
-        <div>
+        </section>
+
+        <section>
           <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
             3. 기간을 설정하세요.
           </span>
@@ -36,14 +60,16 @@ export default function MoimCreate() {
           </div>
           <button>기간 설정하기(캘린더 모달)</button>
           <div>시작날짜 ~ 끝날짜</div>
-        </div>
-        <div>
+        </section>
+
+        <section>
           <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
             4. 모임 시간을 입력하세요
           </span>
           <input />
-        </div>
+        </section>
       </section>
+
       <button className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-gray-300">
         약속 생성하기
       </button>
