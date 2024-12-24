@@ -26,25 +26,37 @@ export default function MoimCreate() {
   const [member, setMember] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
-  const handleChangeInput = (e) => {
+  const handleInputChange = (e) => {
     console.log(e.target.name);
     console.log(e.target.value);
 
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
+    // 모임명 글자수 제한
+    if (e.target.value.length <= 15) {
+      setData({
+        ...data,
+        [e.target.name]: e.target.value,
+      });
+    }
 
     console.log(data);
   };
 
   const handleMemberInput = (e) => {
-    setInputValue(e.target.value);
+    const name = e.target.value;
+    if (name !== null && name.length <= 4) {
+      setInputValue(e.target.value);
+    }
   };
 
   const handleMemberAdd = () => {
     if (inputValue !== "") {
       setMember([...member, inputValue]);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleMemberAdd();
     }
   };
 
@@ -63,7 +75,7 @@ export default function MoimCreate() {
           <input
             name="title"
             value={data.title}
-            onChange={handleChangeInput}
+            onChange={handleInputChange}
             placeholder="모임 이름을 입력하세요."
           />
         </section>
@@ -75,6 +87,7 @@ export default function MoimCreate() {
               name="members"
               value={inputValue}
               onChange={handleMemberInput}
+              onKeyDown={handleKeyDown}
               placeholder="참여자 이름을 입력하세요."
             />
             <button onClick={handleMemberAdd}>추가</button>
