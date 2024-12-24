@@ -3,13 +3,12 @@
 import { useState } from "react";
 
 export default function MoimSelectDate() {
-  // const [selectName, setSelectName] = useState("");
   const [onEditDate, setOnEditDate] = useState(false);
   const [onSelectAll, setOnSelectAll] = useState(false);
   return (
     <div className="flex flex-col items-center">
       <section className="text-black font-suit text-[28px] font-semibold leading-none">
-        약속 날짜 잡기
+        모임 날짜 잡기
       </section>
       {onEditDate ? (
         <section className="flex flex-col  items-center p-6 justify-center  gap-12 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
