@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Title from "./components/Title";
 
 export default function MoimCreate() {
-  const [date, setDate] = useState({
+  const [data, setData] = useState({
     title: "",
     status: "",
     members: [
@@ -22,6 +23,31 @@ export default function MoimCreate() {
     top3: [],
   });
 
+  const [member, setMember] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleChangeInput = (e) => {
+    console.log(e.target.name);
+    console.log(e.target.value);
+
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+
+    console.log(data);
+  };
+
+  const handleMemberInput = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleMemberAdd = () => {
+    if (inputValue !== "") {
+      setMember([...member, inputValue]);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center">
       <section className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
@@ -33,28 +59,35 @@ export default function MoimCreate() {
 
       <section className="flex flex-col p-6 justify-center  gap-10 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
         <section>
-          <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
-            1. 모임명을 입력하세요.
-          </span>
-          <input placeholder="모임 이름을 입력하세요." />
+          <Title text="1. 모임명을 입력하세요." />
+          <input
+            name="title"
+            value={data.title}
+            onChange={handleChangeInput}
+            placeholder="모임 이름을 입력하세요."
+          />
         </section>
 
         <section>
-          <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
-            2. 참여자를 입력하세요. (최대 10명)
-          </span>
-          <input placeholder="참여자 이름을 입력하세요." />
-          <button>추가</button>
+          <Title text="2. 참여자를 입력하세요. (최대 10명)" />
+          <label>
+            <input
+              name="members"
+              value={inputValue}
+              onChange={handleMemberInput}
+              placeholder="참여자 이름을 입력하세요."
+            />
+            <button onClick={handleMemberAdd}>추가</button>
+          </label>
           <div>
-            선영이, 초딩이, 다혜이, 지훈이, 승환이, 갑호이, 현켠이, 예원이,
-            친구이, 친구삼
+            {member.map((item) => (
+              <span>{item}</span>
+            ))}
           </div>
         </section>
 
         <section>
-          <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
-            3. 기간을 설정하세요.
-          </span>
+          <Title text="3. 기간을 설정하세요." />
           <div className="text-gray-500 text-[10px] ">
             참여자는 해당 기간 내에서 가능한 날짜를 선택하게 됩니다.
           </div>
@@ -63,9 +96,7 @@ export default function MoimCreate() {
         </section>
 
         <section>
-          <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
-            4. 모임 시간을 입력하세요
-          </span>
+          <Title text="4. 모임 시간을 입력하세요." />
           <input />
         </section>
       </section>
