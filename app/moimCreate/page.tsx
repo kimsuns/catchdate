@@ -49,9 +49,14 @@ export default function MoimCreate() {
   };
 
   const handleMemberAdd = () => {
-    if (inputValue !== "") {
+    if (inputValue !== "" && member.length < 10) {
       setMember([...member, inputValue]);
     }
+  };
+
+  const handleMemberDelete = (i) => {
+    const newMember = member.filter((item, index) => index !== i);
+    setMember(newMember);
   };
 
   const handleKeyDown = (e) => {
@@ -93,8 +98,11 @@ export default function MoimCreate() {
             <button onClick={handleMemberAdd}>추가</button>
           </label>
           <div>
-            {member.map((item) => (
-              <span>{item}</span>
+            {member.map((item, index) => (
+              <div key={index}>
+                {item}
+                <button onClick={() => handleMemberDelete(index)}>-</button>
+              </div>
             ))}
           </div>
         </section>
