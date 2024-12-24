@@ -2,14 +2,14 @@ export default function MoimCreate() {
   return (
     <div className="flex flex-col items-center">
       <section className="text-black font-suit text-[28px] font-semibold leading-none">
-        약속 생성하기
+        모임 생성하기
       </section>
       <section className="flex flex-col p-6 justify-center  gap-10 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
         <div>
           <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
-            1. 약속명을 입력하세요.
+            1. 모임명을 입력하세요.
           </span>
-          <input placeholder="약속 이름을 입력하세요." />
+          <input placeholder="모임 이름을 입력하세요." />
         </div>
         <div>
           <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
@@ -34,7 +34,7 @@ export default function MoimCreate() {
         </div>
         <div>
           <span className="text-black font-suit text-[17px] font-bold leading-[29px]">
-            4. 약속 시간을 입력하세요
+            4. 모임 시간을 입력하세요
           </span>
           <input />
         </div>
