@@ -1,8 +1,13 @@
+import Link from "next/link";
+
 export default function MoimCreate() {
   return (
     <div className="flex flex-col items-center">
-      <section className="text-black font-suit text-[28px] font-semibold leading-none">
-        모임 생성하기
+      <section className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
+        <Link href={"/"} className="absolute top-0 left-0">
+          <img src="/back.svg" alt="뒤로 가기" />
+        </Link>
+        <span>모임 생성하기</span>
       </section>
       <section className="flex flex-col p-6 justify-center  gap-10 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
         <div>
