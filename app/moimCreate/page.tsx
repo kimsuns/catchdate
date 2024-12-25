@@ -5,9 +5,10 @@ import { useState } from "react";
 import Title from "./components/Title";
 import { title } from "process";
 import { createMoimApi } from "../api/api";
+import { MoimDataType, MoimMemberType } from "../type/type";
 
 export default function MoimCreate() {
-  const [moimData, setMoimData] = useState({
+  const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
     status: "",
     members: [],
@@ -18,8 +19,8 @@ export default function MoimCreate() {
     top3: [],
   });
 
-  const [membersArray, setMembersArray] = useState([]);
-  const [memberName, setMemberName] = useState("");
+  const [membersArray, setMembersArray] = useState<string[]>([]);
+  const [memberName, setMemberName] = useState<string>("");
 
   const [validData, setValidData] = useState({
     title: "",
@@ -28,12 +29,12 @@ export default function MoimCreate() {
     time: "",
   });
 
-  const onCreateMoim = async () => {
-    const res = await createMoimApi(moimData);
+  const onCreateMoim = async (data: MoimDataType) => {
+    const res = await createMoimApi(data);
     console.log("응답", res);
   };
 
-  const onUpdateMoimDate = (name, value) => {
+  const onUpdateMoimDate = (name: string, value: string) => {
     setMoimData({
       ...moimData,
       [name]: value,
@@ -41,7 +42,7 @@ export default function MoimCreate() {
     console.log("현재 모임 데이터", moimData);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
 
@@ -61,22 +62,6 @@ export default function MoimCreate() {
     }
   };
 
-  // const handleMemberAdd = () => {
-  //   if (newMemberData.name !== "" && moimData.members.length < 10) {
-  //     setMoimData({
-  //       ...moimData,
-  //       members: [...moimData.members, newMemberData],
-  //     });
-
-  //     setNewMemberData({
-  //       memberId: "",
-  //       name: "",
-  //       dates: "",
-  //       choose: false,
-  //     });
-  //   }
-  // };
-
   // 모임 참여자 추가
   const handleMemberAdd = () => {
     if (memberName !== "" && membersArray.length < 10) {
@@ -86,12 +71,12 @@ export default function MoimCreate() {
   };
 
   // 모임 참여자 삭제
-  const handleMemberDelete = (id) => {
+  const handleMemberDelete = (id: number) => {
     const newMember = membersArray.filter((item, index) => index !== id);
     setMembersArray(newMember);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleMemberAdd();
     }
@@ -143,27 +128,48 @@ export default function MoimCreate() {
     return validtest;
   };
 
-  const onMemberSet = () => {
-    const fixMember = membersArray.map((item, index) => ({
-      memberId: index + 1,
-      name: item,
-      dates: "",
-      choose: false,
-    }));
+  // const onMemberSet = () => {
+  //   const fixMember: MoimMemberType[] = membersArray.map((item, index) => ({
+  //     memberId: String(index + 1),
+  //     name: item,
+  //     dates: [],
+  //     choose: false,
+  //   }));
 
-    setMoimData({
-      ...moimData,
-      members: fixMember,
-    });
-  };
+  //   setMoimData({
+  //     ...moimData,
+  //     members: fixMember,
+  //   });
+
+  //   onCreateMoim();
+  // };
 
   const handleSubmit = async () => {
     const validtest = await onValidTest();
 
     if (validtest) {
-      onMemberSet();
+      const fixMember: MoimMemberType[] = membersArray.map((item, index) => ({
+        memberId: String(index + 1),
+        name: item,
+        dates: [],
+        choose: false,
+      }));
+
+      // setMoimData({
+      //   ...moimData,
+      //   members: fixMember,
+      // });
+
+      setMoimData((prev) => {
+        const updateData = {
+          ...prev,
+          members: fixMember,
+        };
+        onCreateMoim(updateData);
+        return updateData;
+      });
+
       console.log("api 보내자", moimData);
-      onCreateMoim();
     }
   };
 
