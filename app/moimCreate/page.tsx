@@ -18,21 +18,8 @@ export default function MoimCreate() {
     top3: [],
   });
 
-  const memberData = {
-    memberId: "",
-    name: "",
-    dates: "",
-    choose: false,
-  };
-
   const [membersArray, setMembersArray] = useState([]);
   const [memberName, setMemberName] = useState("");
-  // const [newMemberData, setNewMemberData] = useState({
-  //   memberId: "",
-  //   name: "",
-  //   dates: "",
-  //   choose: false,
-  // });
 
   const [validData, setValidData] = useState({
     title: "",
@@ -43,6 +30,7 @@ export default function MoimCreate() {
 
   const onCreateMoim = async () => {
     const res = await createMoimApi(moimData);
+    console.log("응답", res);
   };
 
   const onUpdateMoimDate = (name, value) => {
@@ -175,6 +163,7 @@ export default function MoimCreate() {
     if (validtest) {
       onMemberSet();
       console.log("api 보내자", moimData);
+      onCreateMoim();
     }
   };
 
@@ -248,7 +237,7 @@ export default function MoimCreate() {
         onClick={handleSubmit}
         className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
       >
-        약속 생성하기
+        모임 생성하기
       </button>
     </div>
   );
