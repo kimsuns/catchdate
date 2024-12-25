@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import Title from "./components/Title";
+import { title } from "process";
 
 export default function MoimCreate() {
-  const [data, setData] = useState({
+  const [moimData, setMoimData] = useState({
     title: "",
     status: "",
     members: [
@@ -23,22 +24,37 @@ export default function MoimCreate() {
     top3: [],
   });
 
-  const [member, setMember] = useState([]);
+  const [members, setMembers] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
+  const [validData, setValidData] = useState({
+    title: "",
+    members: "",
+    date: "",
+    time: "",
+  });
+
+  const onUpdateMoimDate = (name, value) => {
+    setMoimData({
+      ...moimData,
+      [name]: value,
+    });
+    console.log("현재 모임 데이터", moimData);
+  };
+
   const handleInputChange = (e) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
+    const name = e.target.name;
+    const value = e.target.value;
 
     // 모임명 글자수 제한
-    if (e.target.value.length <= 15) {
-      setData({
-        ...data,
-        [e.target.name]: e.target.value,
-      });
+    if (name === "title" && e.target.value.length <= 15) {
+      onUpdateMoimDate(name, value);
     }
 
-    console.log(data);
+    // 약속 시간 글자수 제한
+    if (name === "time" && e.target.value.length <= 5) {
+      onUpdateMoimDate(name, value);
+    }
   };
 
   const handleMemberInput = (e) => {
@@ -49,14 +65,15 @@ export default function MoimCreate() {
   };
 
   const handleMemberAdd = () => {
-    if (inputValue !== "" && member.length < 10) {
-      setMember([...member, inputValue]);
+    if (inputValue !== "" && members.length < 10) {
+      setMembers([...members, inputValue]);
+      setInputValue("");
     }
   };
 
   const handleMemberDelete = (i) => {
-    const newMember = member.filter((item, index) => index !== i);
-    setMember(newMember);
+    const newMember = members.filter((item, index) => index !== i);
+    setMembers(newMember);
   };
 
   const handleKeyDown = (e) => {
@@ -65,6 +82,111 @@ export default function MoimCreate() {
     }
   };
 
+  // const onValidData = (name: string) => {
+  //   if (moimData[name] === "") {
+  //     setValidData({
+  //       ...validData,
+  //       [name]: vaildText[name],
+  //     });
+  //   } else {
+  //     setValidData({
+  //       ...validData,
+  //       [name]: "",
+  //     });
+  //   }
+  // };
+
+  const handleSubmit = () => {
+    const vaildText = {
+      title: "모임명을 입력해주세요.",
+      members: "참여자를 2인 이상 입력해주세요.",
+      date: "기간을 설정해주세요.",
+      time: "시간을 입력해주세요.",
+    };
+
+    const newValidData = {
+      title: "",
+      members: "",
+      date: "",
+      time: "",
+    };
+
+    // 모임명 미입력시시
+    if (moimData.title === "") {
+      newValidData.title = vaildText.title;
+    }
+
+    // 참여자 2인 이하일시시
+    if (members.length < 2) {
+      newValidData.members = vaildText.members;
+    }
+
+    // 기간 미입력시
+    if (moimData.startDate === "" || moimData.endDate === "") {
+      newValidData.date = vaildText.date;
+    }
+
+    // 시간 미입력시
+    if (moimData.time === "") {
+      newValidData.time = vaildText.time;
+    }
+
+    setValidData({ ...newValidData });
+    // // 모임명 미입력시시
+    // if (moimData.title === "") {
+    //   setValidData({
+    //     ...validData,
+    //     title: vaildText.title,
+    //   });
+    // } else {
+    //   setValidData({
+    //     ...validData,
+    //     title: "",
+    //   });
+    //   console.log("타이틀 유효성 검사 실행 안 함");
+    // }
+
+    // // 참여자 2인 이하일시시
+    // if (moimData.members.length < 2) {
+    //   setValidData({
+    //     ...validData,
+    //     members: vaildText.members,
+    //   });
+    // } else {
+    //   setValidData({
+    //     ...validData,
+    //     members: "",
+    //   });
+    // }
+
+    // // 기간 미입력시
+    // if (moimData.startDate === "" || moimData.endDate === "") {
+    //   setValidData({
+    //     ...validData,
+    //     date: vaildText.date,
+    //   });
+    // } else {
+    //   setValidData({
+    //     ...validData,
+    //     date: "",
+    //   });
+    // }
+
+    // // 시간 미입력시
+    // if (moimData.time === "") {
+    //   setValidData({
+    //     ...validData,
+    //     time: vaildText.time,
+    //   });
+    // } else {
+    //   setValidData({
+    //     ...validData,
+    //     time: "",
+    //   });
+    // }
+
+    console.log("유효성 데이터", validData);
+  };
   return (
     <div className="flex flex-col items-center">
       <section className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
@@ -79,10 +201,11 @@ export default function MoimCreate() {
           <Title text="1. 모임명을 입력하세요." />
           <input
             name="title"
-            value={data.title}
+            value={moimData.title}
             onChange={handleInputChange}
             placeholder="모임 이름을 입력하세요."
           />
+          <div className="text-[12px] text-red-500">{validData.title}</div>
         </section>
 
         <section>
@@ -97,8 +220,9 @@ export default function MoimCreate() {
             />
             <button onClick={handleMemberAdd}>추가</button>
           </label>
+          <div className="text-[12px] text-red-500">{validData.members}</div>
           <div>
-            {member.map((item, index) => (
+            {members.map((item, index) => (
               <div key={index}>
                 {item}
                 <button onClick={() => handleMemberDelete(index)}>-</button>
@@ -113,16 +237,26 @@ export default function MoimCreate() {
             참여자는 해당 기간 내에서 가능한 날짜를 선택하게 됩니다.
           </div>
           <button>기간 설정하기(캘린더 모달)</button>
+          <div className="text-[12px] text-red-500">{validData.date}</div>
           <div>시작날짜 ~ 끝날짜</div>
         </section>
 
         <section>
           <Title text="4. 모임 시간을 입력하세요." />
-          <input />
+          <input
+            name="time"
+            value={moimData.time}
+            onChange={handleInputChange}
+            placeholder="모임 시간을 입력하세요."
+          />
+          <div className="text-[12px] text-red-500">{validData.time}</div>
         </section>
       </section>
 
-      <button className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-gray-300">
+      <button
+        onClick={handleSubmit}
+        className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
+      >
         약속 생성하기
       </button>
     </div>
