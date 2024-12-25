@@ -4,28 +4,35 @@ import Link from "next/link";
 import { useState } from "react";
 import Title from "./components/Title";
 import { title } from "process";
+import { createMoimApi } from "../api/api";
 
 export default function MoimCreate() {
   const [moimData, setMoimData] = useState({
     title: "",
     status: "",
-    members: [
-      {
-        memberId: "",
-        name: "",
-        dates: "",
-        choose: false,
-      },
-    ],
-    startDate: "",
-    endDate: "",
+    members: [],
+    startDate: new Date(),
+    endDate: new Date(20241226),
     time: "",
     pickDate: [],
     top3: [],
   });
 
-  const [members, setMembers] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const memberData = {
+    memberId: "",
+    name: "",
+    dates: "",
+    choose: false,
+  };
+
+  const [membersArray, setMembersArray] = useState([]);
+  const [memberName, setMemberName] = useState("");
+  // const [newMemberData, setNewMemberData] = useState({
+  //   memberId: "",
+  //   name: "",
+  //   dates: "",
+  //   choose: false,
+  // });
 
   const [validData, setValidData] = useState({
     title: "",
@@ -33,6 +40,10 @@ export default function MoimCreate() {
     date: "",
     time: "",
   });
+
+  const onCreateMoim = async () => {
+    const res = await createMoimApi(moimData);
+  };
 
   const onUpdateMoimDate = (name, value) => {
     setMoimData({
@@ -47,33 +58,49 @@ export default function MoimCreate() {
     const value = e.target.value;
 
     // 모임명 글자수 제한
-    if (name === "title" && e.target.value.length <= 15) {
+    if (name === "title" && value.length <= 15) {
       onUpdateMoimDate(name, value);
     }
 
     // 약속 시간 글자수 제한
-    if (name === "time" && e.target.value.length <= 5) {
+    if (name === "time" && value.length <= 5) {
       onUpdateMoimDate(name, value);
     }
-  };
 
-  const handleMemberInput = (e) => {
-    const name = e.target.value;
-    if (name !== null && name.length <= 4) {
-      setInputValue(e.target.value);
+    // 모임 참여자 이름 글자수 제한
+    if (name === "members" && value !== null && value.length <= 4) {
+      setMemberName(value);
     }
   };
 
+  // const handleMemberAdd = () => {
+  //   if (newMemberData.name !== "" && moimData.members.length < 10) {
+  //     setMoimData({
+  //       ...moimData,
+  //       members: [...moimData.members, newMemberData],
+  //     });
+
+  //     setNewMemberData({
+  //       memberId: "",
+  //       name: "",
+  //       dates: "",
+  //       choose: false,
+  //     });
+  //   }
+  // };
+
+  // 모임 참여자 추가
   const handleMemberAdd = () => {
-    if (inputValue !== "" && members.length < 10) {
-      setMembers([...members, inputValue]);
-      setInputValue("");
+    if (memberName !== "" && membersArray.length < 10) {
+      setMembersArray([...membersArray, memberName]);
+      setMemberName("");
     }
   };
 
-  const handleMemberDelete = (i) => {
-    const newMember = members.filter((item, index) => index !== i);
-    setMembers(newMember);
+  // 모임 참여자 삭제
+  const handleMemberDelete = (id) => {
+    const newMember = membersArray.filter((item, index) => index !== id);
+    setMembersArray(newMember);
   };
 
   const handleKeyDown = (e) => {
@@ -82,21 +109,9 @@ export default function MoimCreate() {
     }
   };
 
-  // const onValidData = (name: string) => {
-  //   if (moimData[name] === "") {
-  //     setValidData({
-  //       ...validData,
-  //       [name]: vaildText[name],
-  //     });
-  //   } else {
-  //     setValidData({
-  //       ...validData,
-  //       [name]: "",
-  //     });
-  //   }
-  // };
-
-  const handleSubmit = () => {
+  // input 유효성 검사
+  const onValidTest = () => {
+    let validtest = true;
     const vaildText = {
       title: "모임명을 입력해주세요.",
       members: "참여자를 2인 이상 입력해주세요.",
@@ -114,79 +129,55 @@ export default function MoimCreate() {
     // 모임명 미입력시시
     if (moimData.title === "") {
       newValidData.title = vaildText.title;
+      validtest = false;
     }
 
     // 참여자 2인 이하일시시
-    if (members.length < 2) {
+    if (membersArray.length < 2) {
       newValidData.members = vaildText.members;
+      validtest = false;
     }
 
     // 기간 미입력시
-    if (moimData.startDate === "" || moimData.endDate === "") {
+    if (moimData.startDate === null || moimData.endDate === null) {
       newValidData.date = vaildText.date;
+      validtest = false;
     }
 
     // 시간 미입력시
     if (moimData.time === "") {
       newValidData.time = vaildText.time;
+      validtest = false;
     }
 
     setValidData({ ...newValidData });
-    // // 모임명 미입력시시
-    // if (moimData.title === "") {
-    //   setValidData({
-    //     ...validData,
-    //     title: vaildText.title,
-    //   });
-    // } else {
-    //   setValidData({
-    //     ...validData,
-    //     title: "",
-    //   });
-    //   console.log("타이틀 유효성 검사 실행 안 함");
-    // }
 
-    // // 참여자 2인 이하일시시
-    // if (moimData.members.length < 2) {
-    //   setValidData({
-    //     ...validData,
-    //     members: vaildText.members,
-    //   });
-    // } else {
-    //   setValidData({
-    //     ...validData,
-    //     members: "",
-    //   });
-    // }
-
-    // // 기간 미입력시
-    // if (moimData.startDate === "" || moimData.endDate === "") {
-    //   setValidData({
-    //     ...validData,
-    //     date: vaildText.date,
-    //   });
-    // } else {
-    //   setValidData({
-    //     ...validData,
-    //     date: "",
-    //   });
-    // }
-
-    // // 시간 미입력시
-    // if (moimData.time === "") {
-    //   setValidData({
-    //     ...validData,
-    //     time: vaildText.time,
-    //   });
-    // } else {
-    //   setValidData({
-    //     ...validData,
-    //     time: "",
-    //   });
-    // }
-
-    console.log("유효성 데이터", validData);
+    return validtest;
   };
+
+  const onMemberSet = () => {
+    const fixMember = membersArray.map((item, index) => ({
+      memberId: index + 1,
+      name: item,
+      dates: "",
+      choose: false,
+    }));
+
+    setMoimData({
+      ...moimData,
+      members: fixMember,
+    });
+  };
+
+  const handleSubmit = async () => {
+    const validtest = await onValidTest();
+
+    if (validtest) {
+      onMemberSet();
+      console.log("api 보내자", moimData);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center">
       <section className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
@@ -213,8 +204,8 @@ export default function MoimCreate() {
           <label>
             <input
               name="members"
-              value={inputValue}
-              onChange={handleMemberInput}
+              value={memberName}
+              onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               placeholder="참여자 이름을 입력하세요."
             />
@@ -222,7 +213,7 @@ export default function MoimCreate() {
           </label>
           <div className="text-[12px] text-red-500">{validData.members}</div>
           <div>
-            {members.map((item, index) => (
+            {membersArray.map((item, index) => (
               <div key={index}>
                 {item}
                 <button onClick={() => handleMemberDelete(index)}>-</button>
