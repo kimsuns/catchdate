@@ -128,22 +128,6 @@ export default function MoimCreate() {
     return validtest;
   };
 
-  // const onMemberSet = () => {
-  //   const fixMember: MoimMemberType[] = membersArray.map((item, index) => ({
-  //     memberId: String(index + 1),
-  //     name: item,
-  //     dates: [],
-  //     choose: false,
-  //   }));
-
-  //   setMoimData({
-  //     ...moimData,
-  //     members: fixMember,
-  //   });
-
-  //   onCreateMoim();
-  // };
-
   const handleSubmit = async () => {
     const validtest = await onValidTest();
 
