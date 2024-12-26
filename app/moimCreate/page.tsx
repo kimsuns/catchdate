@@ -6,8 +6,10 @@ import Title from "./components/Title";
 import { title } from "process";
 import { createMoimApi } from "../api/api";
 import { MoimDataType, MoimMemberType } from "../type/type";
+import { useRouter } from "next/navigation";
 
 export default function MoimCreate() {
+  const router = useRouter();
   const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
     status: "",
@@ -30,8 +32,15 @@ export default function MoimCreate() {
   });
 
   const onCreateMoim = async (data: MoimDataType) => {
-    const res = await createMoimApi(data);
-    console.log("응답", res);
+    try {
+      const res = await createMoimApi(data);
+      console.log("응답", res.data);
+      if (res.data.id) {
+        router.push(`/moimSelectdate?id=${res.data.id}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onUpdateMoimDate = (name: string, value: string) => {
@@ -99,13 +108,13 @@ export default function MoimCreate() {
       time: "",
     };
 
-    // 모임명 미입력시시
+    // 모임명 미입력시
     if (moimData.title === "") {
       newValidData.title = vaildText.title;
       validtest = false;
     }
 
-    // 참여자 2인 이하일시시
+    // 참여자 2인 이하일시
     if (membersArray.length < 2) {
       newValidData.members = vaildText.members;
       validtest = false;
@@ -138,11 +147,6 @@ export default function MoimCreate() {
         dates: [],
         choose: false,
       }));
-
-      // setMoimData({
-      //   ...moimData,
-      //   members: fixMember,
-      // });
 
       setMoimData((prev) => {
         const updateData = {
