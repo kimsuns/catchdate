@@ -6,7 +6,7 @@ const BASE_URL = "http://localhost:5000/api";
 // 모임 조회
 export const getMoimApi = async (id: string) => {
   try {
-    const res = await axios.get(`${BASE_URL}/${id}`);
+    const res = await axios.get(`${BASE_URL}/moim/${id}`);
     console.log("모임 조회", res);
     return res.data;
   } catch (error) {
