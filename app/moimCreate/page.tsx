@@ -99,13 +99,13 @@ export default function MoimCreate() {
       time: "",
     };
 
-    // 모임명 미입력시시
+    // 모임명 미입력시
     if (moimData.title === "") {
       newValidData.title = vaildText.title;
       validtest = false;
     }
 
-    // 참여자 2인 이하일시시
+    // 참여자 2인 이하일시
     if (membersArray.length < 2) {
       newValidData.members = vaildText.members;
       validtest = false;
@@ -138,11 +138,6 @@ export default function MoimCreate() {
         dates: [],
         choose: false,
       }));
-
-      // setMoimData({
-      //   ...moimData,
-      //   members: fixMember,
-      // });
 
       setMoimData((prev) => {
         const updateData = {
