@@ -19,6 +19,7 @@ export const createMoimApi = async (data: MoimDataType) => {
   try {
     const res = await axios.post(`${BASE_URL}/moim`, data);
     console.log("모임 생성 성공", res);
+    return res.data;
   } catch (error) {
     console.error("모임 생성 실패", error);
   }
