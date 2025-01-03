@@ -195,11 +195,17 @@ export default function MoimCreate() {
             <button onClick={handleMemberAdd}>추가</button>
           </label>
           <div className="text-[12px] text-red-500">{validData.members}</div>
-          <div>
+          <div className="grid grid-cols-2 gap-2 place-items-center">
             {membersArray.map((item, index) => (
-              <div key={index}>
+              <div key={index} className="flex gap-[2px]">
                 {item}
-                <button onClick={() => handleMemberDelete(index)}>-</button>
+                <button onClick={() => handleMemberDelete(index)}>
+                  <img
+                    src="/images/minus.png"
+                    alt="참여자 이름 제거"
+                    className="w-[13px]"
+                  />
+                </button>
               </div>
             ))}
           </div>
