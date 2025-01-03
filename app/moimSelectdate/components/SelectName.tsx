@@ -1,13 +1,22 @@
 import { useState } from "react";
 import NameTable from "./NameTable";
+import { MoimMemberType } from "@/app/type/type";
+
+interface SelectNameProps {
+  member: MoimMemberType[];
+  onSelectAll: boolean;
+  // onSelectMember: () => void;
+  onSelectMember: (value: MoimMemberType) => void;
+  selectName: string;
+}
 
 export default function SelectName({
   member,
   onSelectAll,
   onSelectMember,
   selectName,
-}) {
-  const handleClickName = (item) => {
+}: SelectNameProps) {
+  const handleClickName = (item: MoimMemberType): void => {
     onSelectMember(item);
   };
 
@@ -21,7 +30,7 @@ export default function SelectName({
       <div className="grid grid-cols-2 gap-2 place-items-center">
         {Array.isArray(member) &&
           member.map((item) => (
-            <div key={item.id} className="flex gap-[2px]">
+            <div key={item.memberId} className="flex gap-[2px]">
               <button onClick={() => handleClickName(item)}>
                 v{item.name}
               </button>

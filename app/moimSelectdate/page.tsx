@@ -5,6 +5,7 @@ import { getMoimApi } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
+import { MoimMemberType } from "../type/type";
 
 // 676d1181eb17bca63e11c0e5
 
@@ -25,30 +26,25 @@ export default function MoimSelectDate() {
   });
   const [onEditDate, setOnEditDate] = useState(false);
   const [onSelectAll, setOnSelectAll] = useState(false);
-  const [selectMember, setSelectMember] = useState({
+  const [selectMember, setSelectMember] = useState<MoimMemberType>({
     memberId: "",
     name: "",
     dates: [],
-    choose: "",
+    choose: false,
   });
   const searchParams = useSearchParams();
   const queryId = searchParams.get("id");
-  console.log("쿼리 아이디", queryId);
 
   useEffect(() => {
     const getMoimData = async () => {
       const res = await getMoimApi(queryId as string);
       const data = res;
       setMoimData(res);
-
-      console.log("현재 데이터", data);
     };
-
     getMoimData();
-    console.log("모임데이터", moimData);
   }, [queryId]);
 
-  const onSelectMember = (value) => {
+  const onSelectMember = (value: MoimMemberType): void => {
     console.log("선택한 멤버", value);
     setSelectMember(value);
   };
