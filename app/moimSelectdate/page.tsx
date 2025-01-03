@@ -60,10 +60,10 @@ export default function MoimSelectDate() {
       </section>
       <section className="flex flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
         <div className="font-bold text-1xl text-center uppercase mb-4">
-          {moimData.title === "" ? "모임명" : moimData.title}
+          {moimData.title === "" ? "모임명" : `${moimData.title} 모임`}
         </div>
         {onEditDate ? (
-          <SelectDate />
+          <SelectDate selectMember={selectMember} />
         ) : (
           <SelectName
             member={moimData.members}
