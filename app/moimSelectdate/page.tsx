@@ -1,38 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getMoimApi } from "../api/api";
+import { useSearchParams } from "next/navigation";
+import SelectDate from "./components/SelectDate";
+import SelectName from "./components/SelectName";
+import { MoimMemberType } from "../type/type";
+
+// 676d1181eb17bca63e11c0e5
+
+// 내용 꽉 찬 예시시
+// 6777f0c59fe275be55856418
 
 export default function MoimSelectDate() {
+  const [moimData, setMoimData] = useState({
+    _id: "",
+    title: "",
+    status: "",
+    members: [],
+    startDate: "",
+    endDate: "",
+    time: "",
+    pickDate: [],
+    top3: [],
+  });
   const [onEditDate, setOnEditDate] = useState(false);
   const [onSelectAll, setOnSelectAll] = useState(false);
+  const [selectMember, setSelectMember] = useState<MoimMemberType>({
+    memberId: "",
+    name: "",
+    dates: [],
+    choose: false,
+  });
+  const searchParams = useSearchParams();
+  const queryId = searchParams.get("id");
+
+  useEffect(() => {
+    const getMoimData = async () => {
+      const res = await getMoimApi(queryId as string);
+      const data = res;
+      setMoimData(res);
+    };
+    getMoimData();
+  }, [queryId]);
+
+  const onSelectMember = (value: MoimMemberType): void => {
+    console.log("선택한 멤버", value);
+    setSelectMember(value);
+  };
+
   return (
     <div className="flex flex-col items-center">
       <section className="text-black font-suit text-[28px] font-semibold leading-none">
         모임 날짜 잡기
       </section>
-      {onEditDate ? (
-        <section className="flex flex-col  items-center p-6 justify-center  gap-12 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
-          <div>기간 연말 모임</div>
-          <div>참여자 목록</div>
-          <div>ㅇㅇ님, 날짜를 선택해주세요.</div>
-          <div>캘린더</div>
-        </section>
-      ) : (
-        <section className="flex flex-col  items-center p-6 justify-center  gap-12 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
-          <div>
-            {onSelectAll
-              ? "모두 선택하였습니다. 날짜를 확인하세요."
-              : "이름을 선택하세요."}
-          </div>
-          <div>참여자 목록</div>
-
-          {onSelectAll ? (
-            <button>날짜 확인하기</button>
-          ) : (
-            <div>ㅇㅇ님을 선택하셨습니다.</div>
-          )}
-        </section>
-      )}
+      <section className="flex flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
+        <div className="font-bold text-1xl text-center uppercase mb-4">
+          {moimData.title === "" ? "모임명" : `${moimData.title} 모임`}
+        </div>
+        {onEditDate ? (
+          <SelectDate selectMember={selectMember} />
+        ) : (
+          <SelectName
+            member={moimData.members}
+            onSelectAll={onSelectAll}
+            onSelectMember={onSelectMember}
+            selectName={selectMember.name}
+          />
+        )}
+      </section>
       <section>
         {onEditDate ? (
           <div>
