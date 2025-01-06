@@ -18,6 +18,59 @@ export default function Calendar() {
       new Date(currentMonth.setMonth(currentMonth.getMonth() + 1))
     );
   };
+
+  const handleCalendar = () => {
+    const firstDay = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      1
+    );
+
+    const lastDay = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() + 1,
+      0
+    );
+
+    const daysInMonth = lastDay.getDate(); // 이번달 총 날짜 수
+    const firstWeekday = firstDay.getDay(); // 이번달 첫 번째 날의 요일
+
+    const calendarDays = [];
+
+    // 이전 달 날짜 계산
+    for (let i = 0; i < firstWeekday; i++) {
+      calendarDays.push({
+        date: new Date(firstDay.setDate(firstDay.getDate() - 1)),
+        isDisabled: true, // 클릭 불가능
+      });
+    }
+
+    // 이번 달 날짜 계산
+    for (let i = 0; i < daysInMonth; i++) {
+      const date = new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth(),
+        i
+      );
+      calendarDays.push({
+        date,
+        isDisabled: false,
+      });
+    }
+
+    // 다음 달 날짜 계산
+    const remainingDays = 42 - calendarDays.length; // 총 6주(42칸)을 채우기 위한 나머지 날짜
+    for (let i = 1; i <= remainingDays; i++) {
+      calendarDays.push({
+        date: new Date(lastDay.setDate(lastDay.getDate() + 1)),
+        isDisabled: true,
+      });
+    }
+
+    return calendarDays;
+  };
+  const calendarDays = handleCalendar();
+
   return (
     <div>
       <section>
@@ -29,6 +82,11 @@ export default function Calendar() {
           })}
         </div>
         <button onClick={handleNextMonth}>&gt;</button>
+      </section>
+      <section>
+        {calendarDays.map(({ date, isDisabled }, index) => (
+          <div key={index}>{date.getDate()}</div>
+        ))}
       </section>
     </div>
   );
