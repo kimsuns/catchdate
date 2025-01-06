@@ -7,6 +7,7 @@ import { title } from "process";
 import { createMoimApi } from "../api/api";
 import { MoimDataType, MoimMemberType } from "../type/type";
 import { useRouter } from "next/navigation";
+import Calendar from "../components/Calendar/Calendar";
 
 export default function MoimCreate() {
   const router = useRouter();
@@ -30,6 +31,10 @@ export default function MoimCreate() {
     date: "",
     time: "",
   });
+
+  const startDate = new Date();
+  const endDate = new Date(startDate);
+  endDate.setMonth(startDate.getMonth() + 3);
 
   const onCreateMoim = async (data: MoimDataType) => {
     try {
@@ -216,7 +221,8 @@ export default function MoimCreate() {
           <div className="text-gray-500 text-[10px] ">
             참여자는 해당 기간 내에서 가능한 날짜를 선택하게 됩니다.
           </div>
-          <button>기간 설정하기(캘린더 모달)</button>
+          <Calendar startDate={startDate} endDate={endDate} limit={1} />
+          {/* <button>기간 설정하기(캘린더 모달)</button> */}
           <div className="text-[12px] text-red-500">{validData.date}</div>
           <div>시작날짜 ~ 끝날짜</div>
         </section>
