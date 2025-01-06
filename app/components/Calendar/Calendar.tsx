@@ -7,6 +7,8 @@ export default function Calendar() {
   const endDate = new Date("2025-3-15");
   const [currentMonth, setCurrentMonth] = useState(new Date(startDate));
 
+  const [selectDate, setSelectDate] = useState<Date[]>([]);
+
   const handlePrevMonth = () => {
     setCurrentMonth(
       new Date(currentMonth.setMonth(currentMonth.getMonth() - 1))
@@ -19,8 +21,29 @@ export default function Calendar() {
     );
   };
 
-  const isDateInRange = (date) => {
+  const isDateInRange = (date: Date): boolean => {
     return date >= new Date(startDate) && date <= new Date(endDate);
+  };
+
+  const isSelectDate = (date: Date): boolean => {
+    return selectDate.some(
+      (item: Date) => item.toDateString() === date.toDateString()
+    );
+  };
+
+  const toggleDate = (date: Date) => {
+    if (!isDateInRange(date)) return;
+
+    setSelectDate((prev: Date[]) => {
+      const exist = isSelectDate(date);
+      if (exist) {
+        return prev.filter(
+          (item: Date) => item.toDateString() !== date.toDateString()
+        );
+      } else {
+        return [...prev, date];
+      }
+    });
   };
 
   const baseCalendar = () => {
@@ -104,8 +127,11 @@ export default function Calendar() {
             className={`w-5 h-5 flex justify-center items-center border rounded  ${
               isDisabled
                 ? "bg-gray-200 text-gray-400 pointer-events-none"
+                : isSelectDate(date)
+                ? "bg-green-500 text-white"
                 : "hover:bg-gray-100"
             }`}
+            onClick={() => toggleDate(date)}
           >
             {date.getDate()}
           </div>
