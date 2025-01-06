@@ -72,20 +72,39 @@ export default function Calendar() {
   const calendarDays = handleCalendar();
 
   return (
-    <div>
-      <section>
-        <button onClick={handlePrevMonth}>&lt;</button>
-        <div>
+    <div className="p-4 w-full max-w-md mx-auto">
+      <section className="flex justify-between items-center mb-4">
+        <button
+          className="text-gray-600 hover:text-black"
+          onClick={handlePrevMonth}
+        >
+          &lt;
+        </button>
+        <div className="text-lg font-bold">
           {currentMonth.toLocaleDateString("ko-KR", {
             year: "numeric",
             month: "long",
           })}
         </div>
-        <button onClick={handleNextMonth}>&gt;</button>
+        <button
+          className="text-gray-600 hover:text-black"
+          onClick={handleNextMonth}
+        >
+          &gt;
+        </button>
       </section>
-      <section>
+      <section className="grid grid-cols-7 gap-2">
         {calendarDays.map(({ date, isDisabled }, index) => (
-          <div key={index}>{date.getDate()}</div>
+          <div
+            key={index}
+            className={`w-5 h-5 flex justify-center items-center border rounded  ${
+              isDisabled
+                ? "bg-gray-200 text-gray-400 pointer-events-none"
+                : "hover:bg-gray-100"
+            }`}
+          >
+            {date.getDate()}
+          </div>
         ))}
       </section>
     </div>
