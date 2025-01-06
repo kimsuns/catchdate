@@ -5,11 +5,15 @@ import { useState } from "react";
 interface CalendarProps {
   startDate: Date;
   endDate: Date;
+  limit?: number;
 }
 
-export default function Calendar({ startDate, endDate }: CalendarProps) {
+export default function Calendar({ startDate, endDate, limit }: CalendarProps) {
+  const weekDays = {
+    kor: ["월", "화", "수", "목", "금", "토", "일"],
+    eng: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  };
   const [currentMonth, setCurrentMonth] = useState(new Date(startDate));
-
   const [selectDate, setSelectDate] = useState<Date[]>([]);
 
   const handlePrevMonth = () => {
@@ -39,6 +43,10 @@ export default function Calendar({ startDate, endDate }: CalendarProps) {
 
     setSelectDate((prev: Date[]) => {
       const exist = isSelectDate(date);
+      if (limit && prev.length >= limit && !exist) {
+        return prev;
+      }
+
       if (exist) {
         return prev.filter(
           (item: Date) => item.toDateString() !== date.toDateString()
