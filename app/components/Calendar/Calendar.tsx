@@ -131,7 +131,11 @@ export default function Calendar({ startDate, endDate, limit }: CalendarProps) {
           &gt;
         </button>
       </section>
+
       <section className="grid grid-cols-7 gap-2">
+        {weekDays.kor.map((item) => (
+          <div>{item}</div>
+        ))}
         {calendarDays.map(({ date, isDisabled }, index) => (
           <div
             key={index}
