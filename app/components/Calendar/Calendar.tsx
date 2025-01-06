@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 export default function Calendar() {
-  const startDate = new Date();
-  const endDate = new Date(2025 - 3 - 15);
+  const startDate = new Date("2025-1-6");
+  const endDate = new Date("2025-3-15");
   const [currentMonth, setCurrentMonth] = useState(new Date(startDate));
 
   const handlePrevMonth = () => {
@@ -19,7 +19,11 @@ export default function Calendar() {
     );
   };
 
-  const handleCalendar = () => {
+  const isDateInRange = (date) => {
+    return date >= new Date(startDate) && date <= new Date(endDate);
+  };
+
+  const baseCalendar = () => {
     const firstDay = new Date(
       currentMonth.getFullYear(),
       currentMonth.getMonth(),
@@ -54,7 +58,7 @@ export default function Calendar() {
       );
       calendarDays.push({
         date,
-        isDisabled: false,
+        isDisabled: !isDateInRange(date),
       });
     }
 
@@ -69,7 +73,7 @@ export default function Calendar() {
 
     return calendarDays;
   };
-  const calendarDays = handleCalendar();
+  const calendarDays = baseCalendar();
 
   return (
     <div className="p-4 w-full max-w-md mx-auto">
