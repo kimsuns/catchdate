@@ -7,7 +7,8 @@ export default function Test() {
   return (
     <div>
       테스트 페이지
-      <Calendar startDate={startDate} endDate={endDate} limit={2} />
+      <Calendar startDate={startDate} endDate={endDate} range={true} />
+      <Calendar startDate={startDate} endDate={endDate} />
     </div>
   );
 }

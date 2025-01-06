@@ -6,15 +6,21 @@ interface CalendarProps {
   startDate: Date;
   endDate: Date;
   limit?: number;
+  range?: boolean;
 }
 
-export default function Calendar({ startDate, endDate, limit }: CalendarProps) {
+export default function Calendar({ startDate, endDate, range }: CalendarProps) {
   const weekDays = {
     kor: ["월", "화", "수", "목", "금", "토", "일"],
     eng: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
   };
+  const limit = 2;
   const [currentMonth, setCurrentMonth] = useState(new Date(startDate));
   const [selectDate, setSelectDate] = useState<Date[]>([]);
+  const [rangeDate, setRangeDate] = useState({
+    startRange: "",
+    endRange: "",
+  });
 
   const handlePrevMonth = () => {
     setCurrentMonth(
@@ -32,6 +38,13 @@ export default function Calendar({ startDate, endDate, limit }: CalendarProps) {
     return date >= new Date(startDate) && date <= new Date(endDate);
   };
 
+  const isRange = (date) => {
+    return (
+      date >= new Date(rangeDate.startRange) &&
+      date <= new Date(rangeDate.endRange)
+    );
+  };
+
   const isSelectDate = (date: Date): boolean => {
     return selectDate.some(
       (item: Date) => item.toDateString() === date.toDateString()
@@ -41,11 +54,31 @@ export default function Calendar({ startDate, endDate, limit }: CalendarProps) {
   const toggleDate = (date: Date) => {
     if (!isDateInRange(date)) return;
 
+    console.log("범위 기간", rangeDate);
     setSelectDate((prev: Date[]) => {
       const exist = isSelectDate(date);
-      if (limit && prev.length >= limit && !exist) {
+
+      if (range && prev.length >= limit && !exist) {
         return prev;
       }
+
+      setRangeDate((prev) => {
+        const { startRange, endRange } = prev;
+        if (!range) return;
+
+        if (startRange !== "") {
+          if (date <= new Date(startRange)) {
+            console.log("시작기간 있는데 데이터가 더 작다");
+            return { ...prev, startRange: date };
+          } else {
+            console.log("시작기간 있는데 데이터가 더 크다다");
+            return { ...prev, endRange: date };
+          }
+        } else {
+          console.log("시작기간 없다다");
+          return { ...prev, startRange: date };
+        }
+      });
 
       if (exist) {
         return prev.filter(
@@ -93,6 +126,7 @@ export default function Calendar({ startDate, endDate, limit }: CalendarProps) {
       calendarDays.push({
         date,
         isDisabled: !isDateInRange(date),
+        isRanged: isRange(date),
       });
     }
 
@@ -136,7 +170,7 @@ export default function Calendar({ startDate, endDate, limit }: CalendarProps) {
         {weekDays.kor.map((item, index) => (
           <div key={index}>{item}</div>
         ))}
-        {calendarDays.map(({ date, isDisabled }, index) => (
+        {calendarDays.map(({ date, isDisabled, isRanged }, index) => (
           <div
             key={index}
             className={`w-5 h-5 flex justify-center items-center border rounded  ${
@@ -145,7 +179,7 @@ export default function Calendar({ startDate, endDate, limit }: CalendarProps) {
                 : isSelectDate(date)
                 ? "bg-green-500 text-white"
                 : "hover:bg-gray-100"
-            }`}
+            } ${isRanged && "bg-green-500"}`}
             onClick={() => toggleDate(date)}
           >
             {date.getDate()}
