@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 
-export default function Calendar() {
-  const startDate = new Date("2025-1-6");
-  const endDate = new Date("2025-3-15");
+interface CalendarProps {
+  startDate: Date;
+  endDate: Date;
+}
+
+export default function Calendar({ startDate, endDate }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date(startDate));
 
   const [selectDate, setSelectDate] = useState<Date[]>([]);
