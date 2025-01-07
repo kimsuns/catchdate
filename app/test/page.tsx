@@ -8,8 +8,8 @@ export default function Test() {
   const endDate = new Date(startDate);
   endDate.setMonth(startDate.getMonth() + 3);
 
-  const [selectDates, setSelectDates] = useState([]);
-  const handleDateSelect = (dates) => {
+  const [selectDates, setSelectDates] = useState<Date[]>([]);
+  const handleDateSelect = (dates: Date[]) => {
     setSelectDates(dates);
   };
   return (
