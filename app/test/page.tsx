@@ -15,15 +15,19 @@ export default function Test() {
   return (
     <div>
       테스트 페이지
+      <div className="w-[200px]">
+        <Calendar
+          startDate={startDate}
+          endDate={endDate}
+          onDateSelect={handleDateSelect}
+          size="S"
+          range={true}
+        />
+      </div>
       <Calendar
         startDate={startDate}
         endDate={endDate}
-        onDateSelect={handleDateSelect}
-        range={true}
-      />
-      <Calendar
-        startDate={startDate}
-        endDate={endDate}
+        size="L"
         onDateSelect={handleDateSelect}
       />
     </div>
