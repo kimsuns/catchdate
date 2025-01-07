@@ -1,15 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface CalendarProps {
   startDate: Date;
   endDate: Date;
   limit?: number;
   range?: boolean;
+  onDateSelect: () => void;
 }
 
-export default function Calendar({ startDate, endDate, range }: CalendarProps) {
+interface RangeDate {
+  startRange: Date | null;
+  endRange: Date | null;
+}
+
+export default function Calendar({
+  startDate,
+  endDate,
+  range,
+  onDateSelect,
+}: CalendarProps) {
   const weekDays = {
     kor: ["월", "화", "수", "목", "금", "토", "일"],
     eng: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -17,9 +28,9 @@ export default function Calendar({ startDate, endDate, range }: CalendarProps) {
   const limit = 2;
   const [currentMonth, setCurrentMonth] = useState(new Date(startDate));
   const [selectDate, setSelectDate] = useState<Date[]>([]);
-  const [rangeDate, setRangeDate] = useState({
-    startRange: "",
-    endRange: "",
+  const [rangeDate, setRangeDate] = useState<RangeDate>({
+    startRange: null,
+    endRange: null,
   });
 
   const handlePrevMonth = () => {
@@ -62,23 +73,50 @@ export default function Calendar({ startDate, endDate, range }: CalendarProps) {
         return prev;
       }
 
-      setRangeDate((prev) => {
+      setRangeDate((prev: RangeDate): RangeDate => {
         const { startRange, endRange } = prev;
-        if (!range) return;
+        if (!range) return prev;
+        if (selectDate.length >= limit) return prev;
 
-        if (startRange !== "") {
-          if (date <= new Date(startRange)) {
-            console.log("시작기간 있는데 데이터가 더 작다");
-            return { ...prev, startRange: date };
-          } else {
-            console.log("시작기간 있는데 데이터가 더 크다다");
-            return { ...prev, endRange: date };
-          }
-        } else {
-          console.log("시작기간 없다다");
-          return { ...prev, startRange: date };
+        // 시작 없을 때때
+        if (!startRange) {
+          console.log("시작 없을 때 반환한다", date > new Date(endRange));
+          return date > new Date(endRange)
+            ? { startRange: endRange, endRange: date }
+            : { ...prev, startRange: date };
+        } else if (!endRange) {
+          console.log("시작 있을 때 반환한다,", date < new Date(startRange));
+          return date < new Date(startRange)
+            ? { startRange: date, endRange: startRange }
+            : { ...prev, endRange: date };
         }
+
+        if (date.toDateString() === startRange?.toDateString()) {
+          return { ...prev, startRange: null };
+        } else if (date.toDateString() === endRange?.toDateString()) {
+          return { ...prev, endRange: null };
+        }
+
+        return { ...prev };
       });
+      // setRangeDate((prev: RangeDate): RangeDate => {
+      //   const { startRange, endRange } = prev;
+      //   if (!range) return prev;
+      //   if (selectDate.length >= limit) return prev;
+
+      //   if (!startRange) {
+      //     console.log("시작기간 없다다");
+      //     return { ...prev, startRange: date };
+      //   } else {
+      //     if (date <= new Date(startRange)) {
+      //       console.log("시작기간 있는데 데이터가 더 작다");
+      //       return { startRange: date, endRange: startRange };
+      //     } else {
+      //       console.log("시작기간 있는데 데이터가 더 크다다");
+      //       return { ...prev, endRange: date };
+      //     }
+      //   }
+      // });
 
       if (exist) {
         return prev.filter(
@@ -89,6 +127,14 @@ export default function Calendar({ startDate, endDate, range }: CalendarProps) {
       }
     });
   };
+
+  useEffect(() => {
+    if (range) {
+      onDateSelect(rangeDate);
+    } else {
+      onDateSelect(selectDate);
+    }
+  }, [selectDate, rangeDate, onDateSelect]);
 
   const baseCalendar = () => {
     const firstDay = new Date(
@@ -177,8 +223,8 @@ export default function Calendar({ startDate, endDate, range }: CalendarProps) {
               isDisabled
                 ? "bg-gray-200 text-gray-400 pointer-events-none"
                 : isSelectDate(date)
-                ? "bg-green-500 text-white"
-                : "hover:bg-gray-100"
+                ? "bg-green-500 text-white cursor-pointer"
+                : "hover:bg-gray-100 cursor-pointer"
             } ${isRanged && "bg-green-500"}`}
             onClick={() => toggleDate(date)}
           >
