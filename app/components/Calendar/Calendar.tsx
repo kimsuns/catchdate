@@ -55,15 +55,19 @@ export default function Calendar({
   });
 
   const handlePrevMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.setMonth(currentMonth.getMonth() - 1))
-    );
+    if (currentMonth.getMonth() > startDate.getMonth()) {
+      setCurrentMonth(
+        new Date(currentMonth.setMonth(currentMonth.getMonth() - 1))
+      );
+    }
   };
 
   const handleNextMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.setMonth(currentMonth.getMonth() + 1))
-    );
+    if (currentMonth.getMonth() < endDate.getMonth()) {
+      setCurrentMonth(
+        new Date(currentMonth.setMonth(currentMonth.getMonth() + 1))
+      );
+    }
   };
 
   const isDateInRange = (date: Date): boolean => {
