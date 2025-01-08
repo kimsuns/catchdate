@@ -167,15 +167,15 @@ export default function MoimCreate() {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <section className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
+    <div className="flex flex-col items-center h-full">
+      <header className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
         <Link href={"/"} className="absolute top-0 left-0">
           <img src="/back.svg" alt="뒤로 가기" />
         </Link>
         <span>모임 생성하기</span>
-      </section>
+      </header>
 
-      <section className="flex flex-col p-6 justify-center  gap-10 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
+      <main className="flex-1 overflow-y-auto flex flex-col p-6 gap-5 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
         <section>
           <Title text="1. 모임명을 입력하세요." />
           <input
@@ -221,7 +221,13 @@ export default function MoimCreate() {
           <div className="text-gray-500 text-[10px] ">
             참여자는 해당 기간 내에서 가능한 날짜를 선택하게 됩니다.
           </div>
-          <Calendar startDate={startDate} endDate={endDate} limit={1} />
+          <Calendar
+            startDate={startDate}
+            endDate={endDate}
+            onDateSelect={() => {}}
+            size="S"
+            range={true}
+          />
           {/* <button>기간 설정하기(캘린더 모달)</button> */}
           <div className="text-[12px] text-red-500">{validData.date}</div>
           <div>시작날짜 ~ 끝날짜</div>
@@ -237,14 +243,15 @@ export default function MoimCreate() {
           />
           <div className="text-[12px] text-red-500">{validData.time}</div>
         </section>
-      </section>
-
-      <button
-        onClick={handleSubmit}
-        className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
-      >
-        모임 생성하기
-      </button>
+      </main>
+      <footer className="flex w-full">
+        <button
+          onClick={handleSubmit}
+          className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
+        >
+          모임 생성하기
+        </button>
+      </footer>
     </div>
   );
 }
