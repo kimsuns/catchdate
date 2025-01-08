@@ -197,7 +197,7 @@ export default function MoimCreate() {
         <span>모임 생성하기</span>
       </header>
 
-      <main className="flex-1 overflow-y-auto flex flex-col p-6 gap-5 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
+      <main className="flex-1 overflow-y-auto flex flex-col p-6 gap-5 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
         <section>
           <Title text="1. 모임명을 입력하세요." />
           <input
