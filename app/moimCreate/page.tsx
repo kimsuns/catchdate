@@ -9,19 +9,14 @@ import { MoimDataType, MoimMemberType } from "../type/type";
 import { useRouter } from "next/navigation";
 import Calendar from "../components/Calendar/Calendar";
 
-interface RangeDate {
-  startDate: Date | null;
-  endDate: Date | null;
-}
-
 export default function MoimCreate() {
   const router = useRouter();
   const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
     status: "",
     members: [],
-    startDate: new Date(),
-    endDate: new Date(20241226),
+    startDate: null,
+    endDate: null,
     time: "",
     pickDate: [],
     top3: [],
@@ -29,10 +24,6 @@ export default function MoimCreate() {
 
   const [membersArray, setMembersArray] = useState<string[]>([]);
   const [memberName, setMemberName] = useState<string>("");
-  const [rangeDate, setRangeDate] = useState<RangeDate>({
-    startDate: null,
-    endDate: null,
-  });
 
   const [validData, setValidData] = useState({
     title: "",
@@ -70,22 +61,21 @@ export default function MoimCreate() {
     const secondDay = dates[1];
     console.log("선택한 날짜", dates);
     if (dates.length <= 1) {
-      setRangeDate({
+      setMoimData({
+        ...moimData,
         startDate: firstDay,
         endDate: null,
       });
     }
     if (dates.length >= 2) {
-      setRangeDate((prev: RangeDate): RangeDate => {
+      setMoimData((prev: MoimDataType): MoimDataType => {
         if (firstDay < secondDay) {
-          return { startDate: firstDay, endDate: secondDay };
+          return { ...prev, startDate: firstDay, endDate: secondDay };
         } else {
-          return { startDate: secondDay, endDate: firstDay };
+          return { ...prev, startDate: secondDay, endDate: firstDay };
         }
       });
     }
-
-    console.log("현재 범위 데이터", rangeDate);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -261,13 +251,13 @@ export default function MoimCreate() {
             range={true}
           />
           <div className="text-[12px] text-red-500">{validData.date}</div>
-          <div>
-            {rangeDate.startDate
-              ? rangeDate.startDate.toLocaleDateString()
+          <div className="text-center">
+            {moimData.startDate
+              ? moimData.startDate.toLocaleDateString()
               : "시작 날짜"}{" "}
             ~{" "}
-            {rangeDate.endDate
-              ? rangeDate.endDate.toLocaleDateString()
+            {moimData.endDate
+              ? moimData.endDate.toLocaleDateString()
               : "종료 날짜"}
           </div>
         </section>

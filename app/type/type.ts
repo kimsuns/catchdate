@@ -2,8 +2,8 @@ export interface MoimDataType {
   title: string;
   status: string;
   members: MoimMemberType[];
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | null;
+  endDate: Date | null;
   time: string;
   pickDate: Date[];
   top3: Date[];
