@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { PluginAPI } from "tailwindcss/types/config";
 
 export default {
   content: [
@@ -15,7 +16,7 @@ export default {
     },
   },
   plugins: [
-    function ({ addComponents }) {
+    function ({ addComponents }: PluginAPI) {
       addComponents({
         ".no-scrollbar": {
           "-webkit-scrollbar": "none",
