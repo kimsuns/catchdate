@@ -12,6 +12,9 @@ import { MoimMemberType } from "../type/type";
 // 내용 꽉 찬 예시시
 // 6777f0c59fe275be55856418
 
+// 날짜 생성
+//677df17429403c63c51d695b
+
 export default function MoimSelectDate() {
   const [moimData, setMoimData] = useState({
     _id: "",
