@@ -166,7 +166,7 @@ export default function Calendar({
 
   useEffect(() => {
     onDateSelect(selectDate);
-  }, [selectDate, onDateSelect]);
+  }, [selectDate]);
 
   const baseCalendar = () => {
     const firstDay = new Date(
