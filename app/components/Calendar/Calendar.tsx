@@ -1,5 +1,6 @@
 "use client";
 
+import { send } from "process";
 import { useEffect, useState } from "react";
 
 interface CalendarProps {
@@ -9,11 +10,6 @@ interface CalendarProps {
   range?: boolean;
   size?: "S" | "M" | "L";
   onDateSelect: (selectDate: Date[]) => void;
-}
-
-interface RangeDate {
-  startRange: Date | null;
-  endRange: Date | null;
 }
 
 export default function Calendar({
@@ -49,10 +45,6 @@ export default function Calendar({
   const style = sizeStyles[size];
   const [currentMonth, setCurrentMonth] = useState(new Date(startDate));
   const [selectDate, setSelectDate] = useState<Date[]>([]);
-  const [rangeDate, setRangeDate] = useState<RangeDate>({
-    startRange: null,
-    endRange: null,
-  });
 
   const handlePrevMonth = () => {
     if (currentMonth.getMonth() > startDate.getMonth()) {
@@ -75,11 +67,21 @@ export default function Calendar({
   };
 
   const isRange = (date: Date): boolean => {
-    const { startRange, endRange } = rangeDate;
-    if (!startRange || !endRange) {
+    const firstDay = selectDate[0];
+    const secondDay = selectDate[1];
+
+    if (selectDate.length <= 1) {
       return false;
     }
-    return date >= new Date(startRange) && date <= new Date(endRange);
+
+    if (range) {
+      if (firstDay < secondDay) {
+        return date >= new Date(firstDay) && date <= new Date(secondDay);
+      } else {
+        return date >= new Date(secondDay) && date <= new Date(firstDay);
+      }
+    }
+    return false;
   };
 
   const isSelectDate = (date: Date): boolean => {
@@ -88,57 +90,7 @@ export default function Calendar({
     );
   };
 
-  const handleRange = (date: Date) => {
-    setRangeDate((prev: RangeDate): RangeDate => {
-      const { startRange, endRange } = prev;
-      // if (!range) return prev;
-      // if (selectDate.length >= limit) return prev;
-      console.log("기간 캘린더다", rangeDate);
-
-      if (!startRange && !endRange) {
-        // 시작 x, 끝 x
-        return { ...prev, startRange: date };
-      } else if (!startRange && endRange) {
-        // 시작 x, 끝 o
-        if (date.toDateString() !== endRange.toDateString()) {
-          // 데이터 !== 끝 데이터
-          if (date < new Date(endRange)) {
-            return { ...prev, startRange: date };
-          } else {
-            return { startRange: endRange, endRange: date };
-          }
-        } else {
-          // 데이터 === 끝 데이터
-          return { ...prev, endRange: null };
-        }
-      } else if (startRange && !endRange) {
-        // 시작 o , 끝 x
-        if (date.toDateString() !== startRange.toDateString()) {
-          // 데이터 !== 시작 데이터
-          if (date > new Date(startRange)) {
-            return { ...prev, endRange: date };
-          } else {
-            return { endRange: startRange, startRange: date };
-          }
-        } else {
-          // 데이터 === 시작 데이터
-          return { ...prev, startRange: null };
-        }
-      } else if (startRange && endRange) {
-        // 시작 o, 끝 o
-        if (date.toDateString() === startRange.toDateString()) {
-          // 데이터 === 시작 데이터
-          return { ...prev, startRange: null };
-        } else if (date.toDateString() === endRange.toDateString()) {
-          // 데이터 === 끝 데이터
-          return { ...prev, endRange: null };
-        } else {
-          //  데이터 !== 시작, 끝
-        }
-      }
-      return { ...prev };
-    });
-  };
+  const handleRange = (date: Date) => {};
 
   const toggleDate = (date: Date) => {
     if (!isDateInRange(date)) return;
@@ -151,7 +103,6 @@ export default function Calendar({
       }
 
       if (range) {
-        handleRange(date);
       }
 
       if (exist) {
