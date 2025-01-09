@@ -20,8 +20,11 @@ export const useModal = () => {
     return (
       <>
         {isModalOpen && (
-          <div className="" ref={ref}>
-            <div>{children}</div>
+          <div
+            className="absolute w-full h-full fixed top-0 left-0 flex justify-center items-center bg-black bg-opacity-50 p-5"
+            ref={ref}
+          >
+            <div className="bg-white p-5 rounded-lg shadow-lg">{children}</div>
           </div>
         )}
       </>

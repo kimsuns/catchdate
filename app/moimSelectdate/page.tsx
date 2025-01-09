@@ -7,6 +7,7 @@ import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
 import { MoimMemberType } from "../type/type";
 import Button from "../components/Button/Button";
+import { useModal } from "../hooks/useModal/useModal";
 
 // 676d1181eb17bca63e11c0e5
 
@@ -38,6 +39,7 @@ export default function MoimSelectDate() {
     choose: false,
   });
   const [queryId, setQueryId] = useState<string | null>(null);
+  const { Modal, openModal, closeModal } = useModal();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -60,12 +62,10 @@ export default function MoimSelectDate() {
   }, [queryId]);
 
   const onSelectMember = (value: MoimMemberType): void => {
-    console.log("선택한 멤버", value);
     setSelectMember(value);
   };
 
   const onSelectMemberDate = (dates: Date[]) => {
-    console.log("선택한 데이터", dates);
     setSelectMember((prev) => {
       const updateData = {
         ...prev,
@@ -88,13 +88,12 @@ export default function MoimSelectDate() {
   };
 
   const onConfirmMemberDate = () => {
-    console.log("뭐지?");
     setOnEditDate(false);
     onUpdateMoim();
   };
 
   return (
-    <div className="flex flex-col items-center h-full">
+    <div className="relative flex flex-col items-center h-full">
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
         모임 날짜 잡기
       </header>
@@ -119,9 +118,27 @@ export default function MoimSelectDate() {
           />
         )}
       </main>
+      <Modal>
+        <div className="flex flex-col gap-2">
+          <div className="text-[18px] font-bold">📆 날짜 선택 완료!</div>
+          <div className="text-[15px]">
+            <span>선택 완료시 날짜를 변경할 수 없습니다.</span>
+          </div>
+          <div className="flex gap-5">
+            <button className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[45px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]">
+              확인
+            </button>
+            <button className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[45px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]">
+              취소
+            </button>
+          </div>
+        </div>
+      </Modal>
+
       <footer className="flex w-full">
         {onEditDate ? (
-          <Button onClick={onConfirmMemberDate}>선택 완료</Button>
+          // <Button onClick={onConfirmMemberDate}>선택 완료</Button>
+          <Button onClick={openModal}>선택 완료</Button>
         ) : (
           <div className="flex w-full gap-5">
             <Button onClick={() => setOnEditDate(true)}>선택하기</Button>
