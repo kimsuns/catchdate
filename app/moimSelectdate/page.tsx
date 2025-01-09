@@ -53,11 +53,11 @@ export default function MoimSelectDate() {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <section className="text-black font-suit text-[28px] font-semibold leading-none">
+    <div className="flex flex-col items-center h-full">
+      <header className="text-black font-suit text-[28px] font-semibold leading-none">
         모임 날짜 잡기
-      </section>
-      <section className="flex flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
+      </header>
+      <main className="flex-1 overflow-y-auto flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
         <div className="font-bold text-1xl text-center uppercase mb-4">
           {moimData.title === "" ? "모임명" : `${moimData.title} 모임`}
         </div>
@@ -71,19 +71,31 @@ export default function MoimSelectDate() {
             selectName={selectMember.name}
           />
         )}
-      </section>
-      <section>
+      </main>
+      <footer className="flex w-full">
         {onEditDate ? (
           <div>
-            <button onClick={() => setOnEditDate(false)}>선택 완료</button>
+            <button
+              onClick={() => setOnEditDate(false)}
+              className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
+            >
+              선택 완료
+            </button>
           </div>
         ) : (
-          <div>
-            <button onClick={() => setOnEditDate(true)}>선택하기</button>
-            <button>공유하기</button>
+          <div className="flex w-full gap-5">
+            <button
+              onClick={() => setOnEditDate(true)}
+              className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
+            >
+              선택하기
+            </button>
+            <button className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]">
+              공유하기
+            </button>
           </div>
         )}
-      </section>
+      </footer>
     </div>
   );
 }
