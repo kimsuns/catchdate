@@ -53,6 +53,17 @@ export default function MoimSelectDate() {
     setSelectMember(value);
   };
 
+  const onSelectMemberDate = (dates: Date[]) => {
+    console.log("선택한 데이터", dates);
+    setSelectMember((prev) => {
+      const updateData = {
+        ...prev,
+        dates: dates,
+      };
+      return updateData;
+    });
+  };
+
   return (
     <div className="flex flex-col items-center h-full">
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
@@ -64,9 +75,11 @@ export default function MoimSelectDate() {
         </div>
         {onEditDate ? (
           <SelectDate
-            selectMember={selectMember}
+            selectMember={selectMember.name}
             startDate={moimData.startDate}
             endDate={moimData.endDate}
+            time={moimData.time}
+            onDateSelect={onSelectMemberDate}
           />
         ) : (
           <SelectName
