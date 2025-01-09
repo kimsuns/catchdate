@@ -33,10 +33,17 @@ export default function SelectName({
         {Array.isArray(member) &&
           member.map((item) => (
             <div key={item.memberId} className="flex gap-[2px]">
-              <button onClick={() => handleClickName(item)}>
+              <button
+                onClick={() => handleClickName(item)}
+                disabled={item.choose}
+              >
                 <div className="flex gap-1">
                   {item.choose ? (
-                    <img src="check-completed.svg" alt="선택 완료된 이름" />
+                    <img
+                      src="check-completed.svg"
+                      alt="선택 완료된 이름"
+                      className="w-[20px] h-[20px] "
+                    />
                   ) : (
                     <img
                       src={
@@ -58,7 +65,7 @@ export default function SelectName({
         {selectName && (
           <div className="flex items-center justify-center">
             <div className="text-[#3a8bb5]">{selectName}</div>
-            님을 선택하셨습니다
+            님을 선택하셨습니다.
           </div>
         )}
         {onSelectAll && <button>날짜 확인하기</button>}

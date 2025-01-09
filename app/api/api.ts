@@ -30,7 +30,7 @@ export const updateMoimApi = async (id: string, data: MoimMemberType) => {
   try {
     const res = await axios.put(`${BASE_URL}/moim/${id}`, data);
     console.log("모임 멤버 업데이트 성공", res);
-    return res.data;
+    return res;
   } catch (error) {
     console.error("모임 업데이트 실패", error);
   }
