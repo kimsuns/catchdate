@@ -92,15 +92,16 @@ export default function MoimCreate() {
       onUpdateMoimDate(name, value);
     }
 
-    // 모임 참여자 이름 글자수 제한
-    if (name === "members" && value !== null && value.length <= 4) {
+    // 모임 참여자 이름 글자수와 기존 이름 중복복 제한
+    if (name === "members" && value !== null && value.length) {
       setMemberName(value);
     }
   };
 
   // 모임 참여자 추가
   const handleMemberAdd = () => {
-    if (memberName !== "" && membersArray.length < 10) {
+    const existName = membersArray.some((item) => item === memberName);
+    if (memberName !== "" && membersArray.length < 10 && !existName) {
       setMembersArray([...membersArray, memberName]);
       setMemberName("");
     }
