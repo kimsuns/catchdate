@@ -91,6 +91,12 @@ export default function MoimSelectDate() {
     setOnEditDate(false);
     onUpdateMoim();
     closeModal();
+    setSelectMember({
+      memberId: "",
+      name: "",
+      dates: [],
+      choose: false,
+    });
   };
 
   return (
