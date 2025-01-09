@@ -17,6 +17,7 @@ import { useModal } from "../hooks/useModal/useModal";
 // 날짜 생성
 // 677df17429403c63c51d695b
 // 677fb091ffadeb5ea00dd220
+// 677fe1f73041b3f32072b966
 
 export default function MoimSelectDate() {
   const [moimData, setMoimData] = useState({
@@ -105,9 +106,17 @@ export default function MoimSelectDate() {
         모임 날짜 잡기
       </header>
       <main className="flex-1 overflow-y-auto flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
-        <div className="font-bold text-[20px] text-center uppercase mb-4">
-          {moimData.title === "" ? "모임명" : `'${moimData.title}' 모임`}
+        <div className="font-bold text-[18px] text-center uppercase mb-4">
+          {moimData.title === "" ? (
+            "모임명"
+          ) : (
+            <div className="">
+              {/* <div className="">모임</div> */}
+              <span className="text-[#3a8bb5]">{moimData.title}</span>
+            </div>
+          )}
         </div>
+
         {onEditDate ? (
           <SelectDate
             selectMember={selectMember.name}
