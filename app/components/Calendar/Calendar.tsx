@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 
 interface CalendarProps {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | null;
+  endDate: Date | null;
   limit?: number;
   range?: boolean;
   size?: "S" | "M" | "L";
@@ -41,12 +41,15 @@ export default function Calendar({
     },
   };
 
+  const currentStartDate = startDate ?? new Date();
+  const currentEndDate = endDate ?? new Date();
+
   const style = sizeStyles[size];
-  const [currentMonth, setCurrentMonth] = useState(new Date(startDate));
+  const [currentMonth, setCurrentMonth] = useState(new Date(currentStartDate));
   const [selectDate, setSelectDate] = useState<Date[]>([]);
 
   const handlePrevMonth = () => {
-    if (currentMonth.getMonth() > startDate.getMonth()) {
+    if (currentMonth.getMonth() > currentStartDate.getMonth()) {
       setCurrentMonth(
         new Date(currentMonth.setMonth(currentMonth.getMonth() - 1))
       );
@@ -54,7 +57,7 @@ export default function Calendar({
   };
 
   const handleNextMonth = () => {
-    if (currentMonth.getMonth() < endDate.getMonth()) {
+    if (currentMonth.getMonth() < currentEndDate.getMonth()) {
       setCurrentMonth(
         new Date(currentMonth.setMonth(currentMonth.getMonth() + 1))
       );
@@ -62,7 +65,9 @@ export default function Calendar({
   };
 
   const isDateInRange = (date: Date): boolean => {
-    return date >= new Date(startDate) && date <= new Date(endDate);
+    return (
+      date >= new Date(currentStartDate) && date <= new Date(currentEndDate)
+    );
   };
 
   const isRange = (date: Date): boolean => {

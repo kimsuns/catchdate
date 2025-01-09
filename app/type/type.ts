@@ -12,6 +12,6 @@ export interface MoimDataType {
 export interface MoimMemberType {
   memberId: string;
   name: string;
-  dates: string[];
+  dates: Date[];
   choose: boolean;
 }

@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
 import { MoimMemberType } from "../type/type";
+import Button from "../components/Button/Button";
 
 // 676d1181eb17bca63e11c0e5
 
@@ -21,8 +22,8 @@ export default function MoimSelectDate() {
     title: "",
     status: "",
     members: [],
-    startDate: "",
-    endDate: "",
+    startDate: null,
+    endDate: null,
     time: "",
     pickDate: [],
     top3: [],
@@ -52,17 +53,34 @@ export default function MoimSelectDate() {
     setSelectMember(value);
   };
 
+  const onSelectMemberDate = (dates: Date[]) => {
+    console.log("선택한 데이터", dates);
+    setSelectMember((prev) => {
+      const updateData = {
+        ...prev,
+        dates: dates,
+      };
+      return updateData;
+    });
+  };
+
   return (
-    <div className="flex flex-col items-center">
-      <section className="text-black font-suit text-[28px] font-semibold leading-none">
+    <div className="flex flex-col items-center h-full">
+      <header className="text-black font-suit text-[28px] font-semibold leading-none">
         모임 날짜 잡기
-      </section>
-      <section className="flex flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
-        <div className="font-bold text-1xl text-center uppercase mb-4">
-          {moimData.title === "" ? "모임명" : `${moimData.title} 모임`}
+      </header>
+      <main className="flex-1 overflow-y-auto flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
+        <div className="font-bold text-[20px] text-center uppercase mb-4">
+          {moimData.title === "" ? "모임명" : `'${moimData.title}' 모임`}
         </div>
         {onEditDate ? (
-          <SelectDate selectMember={selectMember} />
+          <SelectDate
+            selectMember={selectMember.name}
+            startDate={moimData.startDate}
+            endDate={moimData.endDate}
+            time={moimData.time}
+            onDateSelect={onSelectMemberDate}
+          />
         ) : (
           <SelectName
             member={moimData.members}
@@ -71,19 +89,17 @@ export default function MoimSelectDate() {
             selectName={selectMember.name}
           />
         )}
-      </section>
-      <section>
+      </main>
+      <footer className="flex w-full">
         {onEditDate ? (
-          <div>
-            <button onClick={() => setOnEditDate(false)}>선택 완료</button>
-          </div>
+          <Button onClick={() => setOnEditDate(false)}>선택 완료</Button>
         ) : (
-          <div>
-            <button onClick={() => setOnEditDate(true)}>선택하기</button>
-            <button>공유하기</button>
+          <div className="flex w-full gap-5">
+            <Button onClick={() => setOnEditDate(true)}>선택하기</Button>
+            <Button onClick={() => {}}>공유하기</Button>
           </div>
         )}
-      </section>
+      </footer>
     </div>
   );
 }
