@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getMoimApi } from "../api/api";
+import { Suspense, useEffect, useState } from "react";
+import { getMoimApi, updateMoimApi } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
@@ -36,14 +36,23 @@ export default function MoimSelectDate() {
     dates: [],
     choose: false,
   });
-  const searchParams = useSearchParams();
-  const queryId = searchParams.get("id");
+  const [queryId, setQueryId] = useState<string | null>(null);
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const id = searchParams.get("id");
+    setQueryId(id);
+  }, []);
+
+  useEffect(() => {
+    if (!queryId) return;
     const getMoimData = async () => {
-      const res = await getMoimApi(queryId as string);
-      const data = res;
-      setMoimData(res);
+      try {
+        const res = await getMoimApi(queryId as string);
+        setMoimData(res);
+      } catch (error) {
+        console.error("모임 데이터를 가져오지 못 했습니다.", error);
+      }
     };
     getMoimData();
   }, [queryId]);
@@ -62,6 +71,22 @@ export default function MoimSelectDate() {
       };
       return updateData;
     });
+  };
+
+  const onUpdateMoim = async () => {
+    console.log("선택한 날짜 보낸다");
+    try {
+      const res = await updateMoimApi(queryId as string, selectMember);
+      console.log("응답", res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onConfirmMemberDate = () => {
+    console.log("뭐지?");
+    setOnEditDate(false);
+    onUpdateMoim();
   };
 
   return (
@@ -92,7 +117,7 @@ export default function MoimSelectDate() {
       </main>
       <footer className="flex w-full">
         {onEditDate ? (
-          <Button onClick={() => setOnEditDate(false)}>선택 완료</Button>
+          <Button onClick={onConfirmMemberDate}>선택 완료</Button>
         ) : (
           <div className="flex w-full gap-5">
             <Button onClick={() => setOnEditDate(true)}>선택하기</Button>

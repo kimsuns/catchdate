@@ -42,7 +42,7 @@ export default function SelectName({
                       src={
                         item.name === selectName
                           ? "check.svg"
-                          : "check-before.png"
+                          : "/images/check-before.png"
                       }
                       alt={`${item.name}이름 선택`}
                       className="w-[20px] h-[20px]"
