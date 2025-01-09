@@ -79,7 +79,7 @@ export default function MoimSelectDate() {
         ) : (
           <div className="flex w-full gap-5">
             <Button onClick={() => setOnEditDate(true)}>선택하기</Button>
-            <Button>공유하기</Button>
+            <Button onClick={() => {}}>공유하기</Button>
           </div>
         )}
       </footer>

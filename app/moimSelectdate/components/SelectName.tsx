@@ -21,7 +21,7 @@ export default function SelectName({
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-10">
       <div className="text-center">
         {onSelectAll
           ? "모두 선택하였습니다. 날짜를 확인하세요."
@@ -37,8 +37,13 @@ export default function SelectName({
             </div>
           ))}
       </div>
-      <div>
-        {selectName && `${selectName}님을 선택하셨습니다.`}
+      <div className="text-center">
+        {selectName && (
+          <div className="flex items-center justify-center">
+            <div className="text-[#3a8bb5]">{selectName}</div>
+            님을 선택하셨습니다
+          </div>
+        )}
         {onSelectAll && <button>날짜 확인하기</button>}
       </div>
     </div>
