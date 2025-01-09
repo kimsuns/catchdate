@@ -77,12 +77,10 @@ export default function MoimSelectDate() {
   };
 
   const onUpdateMoim = async () => {
-    console.log("선택한 날짜 보낸다");
     try {
       const res = await updateMoimApi(queryId as string, selectMember);
-      console.log("응답", res.data);
-      if (res.status === 200) {
-        console.log(" 스테이터스 200!");
+      if (res?.status === 200) {
+        getMoimData();
       }
     } catch (error) {
       console.error(error);

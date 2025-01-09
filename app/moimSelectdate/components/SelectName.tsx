@@ -60,35 +60,12 @@ export default function SelectName({
               </button>
             </div>
           ))}
-        {/* {Array.isArray(member) &&
-          member.map((item) => (
-            <div key={item.memberId} className="flex gap-[2px]">
-              <button onClick={() => handleClickName(item)}>
-                <div className="flex gap-1">
-                  {item.choose ? (
-                    <img src="check-completed.svg" alt="선택 완료된 이름" />
-                  ) : (
-                    <img
-                      src={
-                        item.name === selectName
-                          ? "check.svg"
-                          : "/images/check-before.png"
-                      }
-                      alt={`${item.name}이름 선택`}
-                      className="w-[20px] h-[20px]"
-                    />
-                  )}
-                  {item.name}
-                </div>
-              </button>
-            </div>
-          ))} */}
       </div>
       <div className="text-center">
         {selectName && (
           <div className="flex items-center justify-center">
             <div className="text-[#3a8bb5]">{selectName}</div>
-            님을 선택하셨습니다
+            님을 선택하셨습니다.
           </div>
         )}
         {onSelectAll && <button>날짜 확인하기</button>}
