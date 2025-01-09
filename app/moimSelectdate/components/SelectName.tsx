@@ -64,7 +64,7 @@ export default function SelectName({
       <div className="text-center">
         {selectName && (
           <div className="flex items-center justify-center">
-            <div className="text-[#3a8bb5]">{selectName}</div>
+            <div className="text-[#3a8bb5] font-bold">{selectName}</div>
             님을 선택하셨습니다.
           </div>
         )}

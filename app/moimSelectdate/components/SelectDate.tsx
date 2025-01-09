@@ -27,7 +27,7 @@ export default function SelectDate({
           {startDate ? new Date(startDate).toLocaleDateString() : "시작 날짜"} ~{" "}
           {endDate ? new Date(endDate).toLocaleDateString() : "종료 날짜"}
         </span>
-        <span>&apos;일 중, 하루</span>
+        <span>&apos;일 중,</span>
         <div>
           <span className="text-[#3a8bb5] font-bold">{time}</span>
           <span>에 모일 예정입니다.</span>
