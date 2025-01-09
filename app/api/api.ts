@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MoimDataType } from "../type/type";
+import { MoimDataType, MoimMemberType } from "../type/type";
 
 const BASE_URL = "http://localhost:5000/api";
 
@@ -22,6 +22,17 @@ export const createMoimApi = async (data: MoimDataType) => {
     return res.data;
   } catch (error) {
     console.error("모임 생성 실패", error);
+  }
+};
+
+// 모임 멤버 날짜 선택
+export const updateMoimMemberApi = async (id: string, data: MoimMemberType) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/moim/${id}`, data);
+    console.log("모임 멤버 업데이트 성공", res);
+    return res.data;
+  } catch (error) {
+    console.error("모임 업데이트 실패", error);
   }
 };
 
