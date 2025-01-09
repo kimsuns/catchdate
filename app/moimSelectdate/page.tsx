@@ -162,7 +162,15 @@ export default function MoimSelectDate() {
       <footer className="flex w-full">
         {onEditDate ? (
           // <Button onClick={onConfirmMemberDate}>선택 완료</Button>
-          <Button onClick={openModal}>선택 완료</Button>
+          <div className="flex flex-col gap-2 w-full items-center justify-center">
+            <Button onClick={openModal}>선택 완료</Button>
+            <button
+              onClick={() => setOnEditDate(false)}
+              className="text-[12px] text-center text-gray-500 underline"
+            >
+              이름을 다시 선택할래요!
+            </button>
+          </div>
         ) : (
           <div className="flex w-full gap-5">
             <Button onClick={() => setOnEditDate(true)}>선택하기</Button>
