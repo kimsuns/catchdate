@@ -167,7 +167,7 @@ export default function Calendar({
     }
 
     // 다음 달 날짜 계산
-    const remainingDays = 42 - calendarDays.length; // 총 6주(42칸)을 채우기 위한 나머지 날짜
+    const remainingDays = 35 - calendarDays.length; // 총 5주(35칸)을 채우기 위한 나머지 날짜
     for (let i = 1; i <= remainingDays; i++) {
       calendarDays.push({
         date: new Date(lastDay.setDate(lastDay.getDate() + 1)),
