@@ -66,6 +66,14 @@ export default function MoimSelectDate() {
     setSelectMember(value);
   };
 
+  const onSelectName = () => {
+    if (selectMember.name === "") {
+      console.log("이름 선택해주세요");
+    } else {
+      setOnEditDate(true);
+    }
+  };
+
   const onSelectMemberDate = (dates: Date[]) => {
     setSelectMember((prev) => {
       const updateData = {
@@ -182,7 +190,7 @@ export default function MoimSelectDate() {
           </div>
         ) : (
           <div className="flex w-full gap-5">
-            <Button onClick={() => setOnEditDate(true)}>선택하기</Button>
+            <Button onClick={onSelectName}>선택하기</Button>
             <Button onClick={() => {}}>공유하기</Button>
           </div>
         )}
