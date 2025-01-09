@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getMoimApi } from "../api/api";
+import { getMoimApi, updateMoimApi } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
@@ -64,6 +64,22 @@ export default function MoimSelectDate() {
     });
   };
 
+  const onUpdateMoim = async () => {
+    console.log("선택한 날짜 보낸다");
+    try {
+      const res = await updateMoimApi(queryId as string, selectMember);
+      console.log("응답", res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onConfirmMemberDate = () => {
+    console.log("뭐지?");
+    setOnEditDate(false);
+    onUpdateMoim();
+  };
+
   return (
     <div className="flex flex-col items-center h-full">
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
@@ -92,7 +108,7 @@ export default function MoimSelectDate() {
       </main>
       <footer className="flex w-full">
         {onEditDate ? (
-          <Button onClick={() => setOnEditDate(false)}>선택 완료</Button>
+          <Button onClick={onConfirmMemberDate}>선택 완료</Button>
         ) : (
           <div className="flex w-full gap-5">
             <Button onClick={() => setOnEditDate(true)}>선택하기</Button>
