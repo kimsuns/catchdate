@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
 import { MoimMemberType } from "../type/type";
+import Button from "../components/Button/Button";
 
 // 676d1181eb17bca63e11c0e5
 
@@ -74,25 +75,11 @@ export default function MoimSelectDate() {
       </main>
       <footer className="flex w-full">
         {onEditDate ? (
-          <div>
-            <button
-              onClick={() => setOnEditDate(false)}
-              className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
-            >
-              선택 완료
-            </button>
-          </div>
+          <Button onClick={() => setOnEditDate(false)}>선택 완료</Button>
         ) : (
           <div className="flex w-full gap-5">
-            <button
-              onClick={() => setOnEditDate(true)}
-              className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
-            >
-              선택하기
-            </button>
-            <button className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]">
-              공유하기
-            </button>
+            <Button onClick={() => setOnEditDate(true)}>선택하기</Button>
+            <Button>공유하기</Button>
           </div>
         )}
       </footer>
