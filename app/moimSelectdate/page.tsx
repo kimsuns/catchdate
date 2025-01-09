@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { getMoimApi, updateMoimApi } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
@@ -36,14 +36,23 @@ export default function MoimSelectDate() {
     dates: [],
     choose: false,
   });
-  const searchParams = useSearchParams();
-  const queryId = searchParams.get("id");
+  const [queryId, setQueryId] = useState<string | null>(null);
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const id = searchParams.get("id");
+    setQueryId(id);
+  }, []);
+
+  useEffect(() => {
+    if (!queryId) return;
     const getMoimData = async () => {
-      const res = await getMoimApi(queryId as string);
-      const data = res;
-      setMoimData(res);
+      try {
+        const res = await getMoimApi(queryId as string);
+        setMoimData(res);
+      } catch (error) {
+        console.error("모임 데이터를 가져오지 못 했습니다.", error);
+      }
     };
     getMoimData();
   }, [queryId]);
