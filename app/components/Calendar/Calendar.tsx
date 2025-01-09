@@ -41,8 +41,11 @@ export default function Calendar({
     },
   };
 
-  const currentStartDate = startDate ?? new Date();
-  const currentEndDate = endDate ?? new Date();
+  const currentStartDate = startDate ? new Date(startDate) : new Date();
+  const currentEndDate = endDate ? new Date(endDate) : new Date();
+
+  console.log("현재 시작달", currentStartDate);
+  console.log("현재 끝달달", currentEndDate);
 
   const style = sizeStyles[size];
   const [currentMonth, setCurrentMonth] = useState(new Date(currentStartDate));
@@ -164,7 +167,7 @@ export default function Calendar({
     }
 
     // 다음 달 날짜 계산
-    const remainingDays = 42 - calendarDays.length; // 총 6주(42칸)을 채우기 위한 나머지 날짜
+    const remainingDays = 35 - calendarDays.length; // 총 5주(35칸)을 채우기 위한 나머지 날짜
     for (let i = 1; i <= remainingDays; i++) {
       calendarDays.push({
         date: new Date(lastDay.setDate(lastDay.getDate() + 1)),
