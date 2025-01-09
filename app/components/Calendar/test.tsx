@@ -41,8 +41,8 @@ export default function Calendar({
     },
   };
 
-  const currentStartDate = startDate ? new Date(startDate) : new Date();
-  const currentEndDate = endDate ? new Date(endDate) : new Date();
+  const currentStartDate = startDate ?? new Date();
+  const currentEndDate = endDate ?? new Date();
 
   console.log("현재 시작달", currentStartDate);
   console.log("현재 끝달달", currentEndDate);
