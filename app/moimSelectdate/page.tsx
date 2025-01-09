@@ -128,8 +128,19 @@ export default function MoimSelectDate() {
       <Modal>
         <div className="flex flex-col gap-2">
           <div className="text-[18px] font-bold">📆 날짜 선택 완료!</div>
-          <div className="text-[15px]">
-            <span>선택 완료시 날짜를 변경할 수 없습니다.</span>
+          <div className="flex flex-col text-[15px] gap-2">
+            {selectMember.dates.length >= 1 ? (
+              <div>총 {selectMember.dates.length}개의 날짜 선택 완료 🥳🥳</div>
+            ) : (
+              <div>
+                <div>가능한 날짜가 없으신가요?😨😭</div>
+                <div>아무 날짜도 선택하지 않으셨습니다.</div>
+              </div>
+            )}
+            <div>정말 선택 완료하실건가요?</div>
+            <div className="text-[11px] text-red-500">
+              선택 완료시 더이상 날짜를 선택할 수 없습니다.
+            </div>
           </div>
           <div className="flex gap-5">
             <button
