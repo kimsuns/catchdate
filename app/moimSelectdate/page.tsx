@@ -90,6 +90,7 @@ export default function MoimSelectDate() {
   const onConfirmMemberDate = () => {
     setOnEditDate(false);
     onUpdateMoim();
+    closeModal();
   };
 
   return (
@@ -125,10 +126,16 @@ export default function MoimSelectDate() {
             <span>선택 완료시 날짜를 변경할 수 없습니다.</span>
           </div>
           <div className="flex gap-5">
-            <button className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[45px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]">
+            <button
+              onClick={onConfirmMemberDate}
+              className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[45px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
+            >
               확인
             </button>
-            <button className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[45px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]">
+            <button
+              onClick={closeModal}
+              className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[45px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
+            >
               취소
             </button>
           </div>
