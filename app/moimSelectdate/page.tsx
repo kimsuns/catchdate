@@ -22,8 +22,8 @@ export default function MoimSelectDate() {
     title: "",
     status: "",
     members: [],
-    startDate: "",
-    endDate: "",
+    startDate: null,
+    endDate: null,
     time: "",
     pickDate: [],
     top3: [],
@@ -59,11 +59,15 @@ export default function MoimSelectDate() {
         모임 날짜 잡기
       </header>
       <main className="flex-1 overflow-y-auto flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
-        <div className="font-bold text-1xl text-center uppercase mb-4">
-          {moimData.title === "" ? "모임명" : `${moimData.title} 모임`}
+        <div className="font-bold text-[20px] text-center uppercase mb-4">
+          {moimData.title === "" ? "모임명" : `'${moimData.title}' 모임`}
         </div>
         {onEditDate ? (
-          <SelectDate selectMember={selectMember} />
+          <SelectDate
+            selectMember={selectMember}
+            startDate={moimData.startDate}
+            endDate={moimData.endDate}
+          />
         ) : (
           <SelectName
             member={moimData.members}
