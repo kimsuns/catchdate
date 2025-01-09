@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+
 import Calendar from "../components/Calendar/Calendar";
+import { useModal } from "../hooks/useModal/useModal";
 
 export default function Test() {
+  const { Modal, openModal, closeModal } = useModal();
   const startDate = new Date();
   const endDate = new Date(startDate);
   endDate.setMonth(startDate.getMonth() + 3);
@@ -15,7 +18,8 @@ export default function Test() {
   return (
     <div>
       테스트 페이지
-      <div className="w-[200px]">
+      <Modal>아dkdkdkdkdkdkk아</Modal>
+      {/* <div className="w-[200px]">
         <Calendar
           startDate={startDate}
           endDate={endDate}
@@ -29,7 +33,7 @@ export default function Test() {
         endDate={endDate}
         size="L"
         onDateSelect={handleDateSelect}
-      />
+      /> */}
     </div>
   );
 }
