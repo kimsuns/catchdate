@@ -14,7 +14,8 @@ import Button from "../components/Button/Button";
 // 6777f0c59fe275be55856418
 
 // 날짜 생성
-//677df17429403c63c51d695b
+// 677df17429403c63c51d695b
+// 677fb091ffadeb5ea00dd220
 
 export default function MoimSelectDate() {
   const [moimData, setMoimData] = useState({
@@ -44,16 +45,17 @@ export default function MoimSelectDate() {
     setQueryId(id);
   }, []);
 
+  const getMoimData = async () => {
+    try {
+      const res = await getMoimApi(queryId as string);
+      setMoimData(res);
+    } catch (error) {
+      console.error("모임 데이터를 가져오지 못 했습니다.", error);
+    }
+  };
+
   useEffect(() => {
     if (!queryId) return;
-    const getMoimData = async () => {
-      try {
-        const res = await getMoimApi(queryId as string);
-        setMoimData(res);
-      } catch (error) {
-        console.error("모임 데이터를 가져오지 못 했습니다.", error);
-      }
-    };
     getMoimData();
   }, [queryId]);
 
@@ -68,6 +70,7 @@ export default function MoimSelectDate() {
       const updateData = {
         ...prev,
         dates: dates,
+        choose: true,
       };
       return updateData;
     });
@@ -78,6 +81,9 @@ export default function MoimSelectDate() {
     try {
       const res = await updateMoimApi(queryId as string, selectMember);
       console.log("응답", res.data);
+      if (res.status === 200) {
+        console.log(" 스테이터스 200!");
+      }
     } catch (error) {
       console.error(error);
     }

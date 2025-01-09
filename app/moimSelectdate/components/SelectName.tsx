@@ -33,6 +33,36 @@ export default function SelectName({
         {Array.isArray(member) &&
           member.map((item) => (
             <div key={item.memberId} className="flex gap-[2px]">
+              <button
+                onClick={() => handleClickName(item)}
+                disabled={item.choose}
+              >
+                <div className="flex gap-1">
+                  {item.choose ? (
+                    <img
+                      src="check-completed.svg"
+                      alt="선택 완료된 이름"
+                      className="w-[20px] h-[20px] "
+                    />
+                  ) : (
+                    <img
+                      src={
+                        item.name === selectName
+                          ? "check.svg"
+                          : "/images/check-before.png"
+                      }
+                      alt={`${item.name}이름 선택`}
+                      className="w-[20px] h-[20px]"
+                    />
+                  )}
+                  {item.name}
+                </div>
+              </button>
+            </div>
+          ))}
+        {/* {Array.isArray(member) &&
+          member.map((item) => (
+            <div key={item.memberId} className="flex gap-[2px]">
               <button onClick={() => handleClickName(item)}>
                 <div className="flex gap-1">
                   {item.choose ? (
@@ -52,7 +82,7 @@ export default function SelectName({
                 </div>
               </button>
             </div>
-          ))}
+          ))} */}
       </div>
       <div className="text-center">
         {selectName && (
