@@ -6,14 +6,17 @@ import Title from "./components/Title";
 import { title } from "process";
 import { createMoimApi } from "../api/api";
 import { MoimDataType, MoimMemberType } from "../type/type";
+import { useRouter } from "next/navigation";
+import Calendar from "../components/Calendar/Calendar";
 
 export default function MoimCreate() {
+  const router = useRouter();
   const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
     status: "",
     members: [],
-    startDate: new Date(),
-    endDate: new Date(20241226),
+    startDate: null,
+    endDate: null,
     time: "",
     pickDate: [],
     top3: [],
@@ -29,9 +32,20 @@ export default function MoimCreate() {
     time: "",
   });
 
+  const startDate = new Date();
+  const endDate = new Date(startDate);
+  endDate.setMonth(startDate.getMonth() + 3);
+
   const onCreateMoim = async (data: MoimDataType) => {
-    const res = await createMoimApi(data);
-    console.log("응답", res);
+    try {
+      const res = await createMoimApi(data);
+      console.log("응답", res.data);
+      if (res.data.id) {
+        router.push(`/moimSelectdate?id=${res.data.id}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onUpdateMoimDate = (name: string, value: string) => {
@@ -40,6 +54,28 @@ export default function MoimCreate() {
       [name]: value,
     });
     console.log("현재 모임 데이터", moimData);
+  };
+
+  const handleDateSelect = (dates: Date[]) => {
+    const firstDay = dates[0];
+    const secondDay = dates[1];
+    console.log("선택한 날짜", dates);
+    if (dates.length <= 1) {
+      setMoimData({
+        ...moimData,
+        startDate: firstDay,
+        endDate: null,
+      });
+    }
+    if (dates.length >= 2) {
+      setMoimData((prev: MoimDataType): MoimDataType => {
+        if (firstDay < secondDay) {
+          return { ...prev, startDate: firstDay, endDate: secondDay };
+        } else {
+          return { ...prev, startDate: secondDay, endDate: firstDay };
+        }
+      });
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,13 +135,13 @@ export default function MoimCreate() {
       time: "",
     };
 
-    // 모임명 미입력시시
+    // 모임명 미입력시
     if (moimData.title === "") {
       newValidData.title = vaildText.title;
       validtest = false;
     }
 
-    // 참여자 2인 이하일시시
+    // 참여자 2인 이하일시
     if (membersArray.length < 2) {
       newValidData.members = vaildText.members;
       validtest = false;
@@ -139,11 +175,6 @@ export default function MoimCreate() {
         choose: false,
       }));
 
-      // setMoimData({
-      //   ...moimData,
-      //   members: fixMember,
-      // });
-
       setMoimData((prev) => {
         const updateData = {
           ...prev,
@@ -158,15 +189,15 @@ export default function MoimCreate() {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <section className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
+    <div className="flex flex-col items-center h-full">
+      <header className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
         <Link href={"/"} className="absolute top-0 left-0">
           <img src="/back.svg" alt="뒤로 가기" />
         </Link>
         <span>모임 생성하기</span>
-      </section>
+      </header>
 
-      <section className="flex flex-col p-6 justify-center  gap-10 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2]">
+      <main className="flex-1 overflow-y-auto flex flex-col p-6 gap-5 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
         <section>
           <Title text="1. 모임명을 입력하세요." />
           <input
@@ -191,11 +222,17 @@ export default function MoimCreate() {
             <button onClick={handleMemberAdd}>추가</button>
           </label>
           <div className="text-[12px] text-red-500">{validData.members}</div>
-          <div>
+          <div className="grid grid-cols-2 gap-2 place-items-center">
             {membersArray.map((item, index) => (
-              <div key={index}>
+              <div key={index} className="flex gap-[2px]">
                 {item}
-                <button onClick={() => handleMemberDelete(index)}>-</button>
+                <button onClick={() => handleMemberDelete(index)}>
+                  <img
+                    src="/images/minus.png"
+                    alt="참여자 이름 제거"
+                    className="w-[13px]"
+                  />
+                </button>
               </div>
             ))}
           </div>
@@ -206,9 +243,23 @@ export default function MoimCreate() {
           <div className="text-gray-500 text-[10px] ">
             참여자는 해당 기간 내에서 가능한 날짜를 선택하게 됩니다.
           </div>
-          <button>기간 설정하기(캘린더 모달)</button>
+          <Calendar
+            startDate={startDate}
+            endDate={endDate}
+            onDateSelect={handleDateSelect}
+            size="S"
+            range={true}
+          />
           <div className="text-[12px] text-red-500">{validData.date}</div>
-          <div>시작날짜 ~ 끝날짜</div>
+          <div className="text-center">
+            {moimData.startDate
+              ? moimData.startDate.toLocaleDateString()
+              : "시작 날짜"}{" "}
+            ~{" "}
+            {moimData.endDate
+              ? moimData.endDate.toLocaleDateString()
+              : "종료 날짜"}
+          </div>
         </section>
 
         <section>
@@ -221,14 +272,15 @@ export default function MoimCreate() {
           />
           <div className="text-[12px] text-red-500">{validData.time}</div>
         </section>
-      </section>
-
-      <button
-        onClick={handleSubmit}
-        className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
-      >
-        모임 생성하기
-      </button>
+      </main>
+      <footer className="flex w-full">
+        <button
+          onClick={handleSubmit}
+          className="text-[#FFF] font-[SUIT Variable] text-[17px] font-bold flex w-full h-[53px] p-4 justify-center items-center self-stretch rounded-[8px] hover:bg-[#51B1E0] bg-[#3a8bb5]"
+        >
+          모임 생성하기
+        </button>
+      </footer>
     </div>
   );
 }
