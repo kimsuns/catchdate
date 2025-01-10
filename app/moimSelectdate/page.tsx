@@ -11,6 +11,7 @@ import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
 
 // 676d1181eb17bca63e11c0e5
+// 678126c9d1f6eae9c04662a4
 
 // 내용 꽉 찬 예시시
 // 6777f0c59fe275be55856418
@@ -54,6 +55,27 @@ export default function MoimSelectDate() {
     setQueryId(id);
   }, []);
 
+  // const handleMoimPickDate = () => {
+  //   console.log("모든 멤버가 선택한 날짜");
+  //   const allDates = [];
+
+  //   const [existDates, setExistDates] = useState([]);
+
+  //   // 멤버 전체 돌리기기
+  //   moimData.members.map((item) => {
+  //     // 멤버가 선택한 dates 전체 돌리기
+  //     if (item.dates.length > 1) {
+  //       item.dates.map((item) => {
+  //         allDates.push(item);
+  //       });
+  //     }
+  //   });
+
+  //   // 중복되는 date는
+
+  //   console.log("모든 데이터", allDates);
+  // };
+
   const getMoimData = async () => {
     try {
       const res = await getMoimApi(queryId as string);
@@ -65,6 +87,7 @@ export default function MoimSelectDate() {
 
       if (!hasUnchooseMember) {
         console.log("모든 멤버가 선택했습니다.");
+        // handleMoimPickDate();
         // setOnSelectAll(true);
         setMoimData((prev) => {
           const updateData: MoimData = {
