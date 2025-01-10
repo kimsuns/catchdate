@@ -146,7 +146,7 @@ export default function MoimSelectDate() {
 
   const onUpdateMoim = async () => {
     try {
-      const res = await updateMoimApi(queryId as string, selectMember);
+      const res = await updateMoimMemberApi(queryId as string, selectMember);
       if (res?.status === 200) {
         getMoimData();
       }
