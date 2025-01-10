@@ -8,6 +8,7 @@ import SelectName from "./components/SelectName";
 import { MoimMemberType } from "../type/type";
 import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
+import { useRouter } from "next/navigation";
 
 // 676d1181eb17bca63e11c0e5
 
@@ -32,7 +33,7 @@ export default function MoimSelectDate() {
     top3: [],
   });
   const [onEditDate, setOnEditDate] = useState(false);
-  const [onSelectAll, setOnSelectAll] = useState(false);
+  const [onSelectAll, setOnSelectAll] = useState(true);
   const [selectMember, setSelectMember] = useState<MoimMemberType>({
     memberId: "",
     name: "",
@@ -41,6 +42,7 @@ export default function MoimSelectDate() {
   });
   const [queryId, setQueryId] = useState<string | null>(null);
   const { Modal, openModal, closeModal } = useModal();
+  const router = useRouter();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -108,6 +110,11 @@ export default function MoimSelectDate() {
     });
   };
 
+  const handleMoveMoimTheDayPage = () => {
+    console.log("날짜 확인 가즈아");
+    router.push(`/moimTheday?id=${queryId}`);
+  };
+
   return (
     <div className="relative flex flex-col items-center h-full">
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
@@ -136,7 +143,9 @@ export default function MoimSelectDate() {
         ) : (
           <SelectName
             member={moimData.members}
-            onSelectAll={onSelectAll}
+            isSelectAll={true}
+            // isSelectAll={onSelectAll}
+            onSelectAll={handleMoveMoimTheDayPage}
             onSelectMember={onSelectMember}
             selectName={selectMember.name}
           />
