@@ -11,7 +11,6 @@ import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
 
 // 676d1181eb17bca63e11c0e5
-// 678126c9d1f6eae9c04662a4
 
 // 내용 꽉 찬 예시시
 // 6777f0c59fe275be55856418
