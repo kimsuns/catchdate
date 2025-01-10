@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getMoimApi } from "../api/api";
 
 export default function MoimTheDay() {
   const [moimData, setMoimData] = useState({
@@ -20,6 +21,20 @@ export default function MoimTheDay() {
     const id = searchParams.get("id");
     setQueryId(id);
   }, []);
+
+  const getMoimData = async () => {
+    try {
+      const res = await getMoimApi(queryId as string);
+      setMoimData(res);
+    } catch (error) {
+      console.error("모임 데이터를 가져오지 못 했습니다.", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!queryId) return;
+    getMoimData();
+  }, [queryId]);
 
   return (
     <div className="flex flex-col items-center">
