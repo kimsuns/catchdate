@@ -1,4 +1,15 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export default function MoimTheDay() {
+  const [queryId, setQueryId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const id = searchParams.get("id");
+    setQueryId(id);
+  }, []);
   return (
     <div className="flex flex-col items-center">
       <section className="text-black font-suit text-[28px] font-semibold leading-none">
