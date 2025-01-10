@@ -1,7 +1,8 @@
 import axios from "axios";
 import { MoimDataType, MoimMemberType } from "../type/type";
 
-const BASE_URL = "http://localhost:5000/api";
+// const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = `${process.env.NEXT_PUBLIC_CATCHDATE_API_URL}/api`;
 
 // 모임 조회
 export const getMoimApi = async (id: string) => {
@@ -16,6 +17,7 @@ export const getMoimApi = async (id: string) => {
 
 // 모임 생성
 export const createMoimApi = async (data: MoimDataType) => {
+  console.log("베이스 유알엘", BASE_URL);
   try {
     const res = await axios.post(`${BASE_URL}/moim`, data);
     console.log("모임 생성 성공", res);
