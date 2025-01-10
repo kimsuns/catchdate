@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { getMoimApi, updateMoimApi } from "../api/api";
+import { getMoimApi, updateMoimApi, updateMoimStatusApi } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
@@ -10,7 +10,12 @@ import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
 
-// 676d1181eb17bca63e11c0e5
+// 6780ee62bf56c026c1d91944
+// 678126c9d1f6eae9c04662a4
+// 6780efdbbf56c026c1d919b5
+
+// 6780ee62bf56c026c1d9194c
+// 678126c9d1f6eae9c04662a0
 
 // 내용 꽉 찬 예시시
 // 6777f0c59fe275be55856418
@@ -75,6 +80,14 @@ export default function MoimSelectDate() {
   //   console.log("모든 데이터", allDates);
   // };
 
+  const handleMoimStatus = async () => {
+    try {
+      const res = await updateMoimStatusApi(queryId as string);
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const getMoimData = async () => {
     try {
       const res = await getMoimApi(queryId as string);
@@ -88,11 +101,13 @@ export default function MoimSelectDate() {
         console.log("모든 멤버가 선택했습니다.");
         // handleMoimPickDate();
         // setOnSelectAll(true);
+        handleMoimStatus();
         setMoimData((prev) => {
           const updateData: MoimData = {
             ...prev,
             status: "completed",
           };
+
           return updateData;
         });
       }
