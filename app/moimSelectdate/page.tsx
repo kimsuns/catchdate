@@ -33,7 +33,7 @@ export default function MoimSelectDate() {
     top3: [],
   });
   const [onEditDate, setOnEditDate] = useState(false);
-  const [onSelectAll, setOnSelectAll] = useState(true);
+  const [onSelectAll, setOnSelectAll] = useState(false);
   const [selectMember, setSelectMember] = useState<MoimMemberType>({
     memberId: "",
     name: "",
@@ -54,6 +54,18 @@ export default function MoimSelectDate() {
     try {
       const res = await getMoimApi(queryId as string);
       setMoimData(res);
+
+      const hasUnchooseMember = res.members.some(
+        (item: MoimMemberType) => item.choose === false
+      );
+
+      if (hasUnchooseMember) {
+        console.log("선택하지 않은 멤버가 있습니다.");
+        setOnSelectAll(false);
+      } else {
+        console.log("모든 멤버가 선택했습니다.");
+        setOnSelectAll(true);
+      }
     } catch (error) {
       console.error("모임 데이터를 가져오지 못 했습니다.", error);
     }
@@ -143,8 +155,7 @@ export default function MoimSelectDate() {
         ) : (
           <SelectName
             member={moimData.members}
-            isSelectAll={true}
-            // isSelectAll={onSelectAll}
+            isSelectAll={onSelectAll}
             onSelectAll={handleMoveMoimTheDayPage}
             onSelectMember={onSelectMember}
             selectName={selectMember.name}
