@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { getMoimApi, updateMoimApi } from "../api/api";
+import { getMoimApi, updateMoimMemberApi } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 
 // 6780ee62bf56c026c1d91944
 // 6780efdbbf56c026c1d919b5
-
 
 // 내용 꽉 찬 예시시
 // 6777f0c59fe275be55856418
@@ -111,7 +110,7 @@ export default function MoimSelectDate() {
 
   const onUpdateMoim = async () => {
     try {
-      const res = await updateMoimApi(queryId as string, selectMember);
+      const res = await updateMoimMemberApi(queryId as string, selectMember);
       if (res?.status === 200) {
         getMoimData();
       }
