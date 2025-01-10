@@ -1,6 +1,6 @@
 export interface MoimDataType {
   title: string;
-  status: string;
+  status: "ready" | "completed";
   members: MoimMemberType[];
   startDate: Date | null;
   endDate: Date | null;
