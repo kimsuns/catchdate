@@ -5,7 +5,7 @@ import { getMoimApi, updateMoimApi, updateMoimStatusApi } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
-import { MoimDataType, MoimMemberType } from "../type/type";
+import { MoimDataType, MoimMemberType, MoimPickDateType } from "../type/type";
 import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
@@ -30,11 +30,6 @@ interface MoimData extends MoimDataType {
   _id: string;
 }
 
-interface AllDate {
-  date: Date;
-  count: number;
-  members: string[];
-}
 export default function MoimSelectDate() {
   const [moimData, setMoimData] = useState<MoimData>({
     _id: "",
@@ -66,33 +61,13 @@ export default function MoimSelectDate() {
   }, []);
 
   const handleMoimPickDate = (res: MoimData) => {
-    // 방법1
-    // 모든 멤버가 선택한 날짜 배열에 다 넣기
-    // const allDates = [];
-    // // 멤버 전체 돌리기기
-    // console.log("모임데이터 정보다다다다ㅏ", res);
-    // res.members.map((item) => {
-    //   // 멤버가 선택한 dates 전체 돌리기
-    //   console.log("날짜픽 모임 멤버 정보", item);
-    //   if (item.dates.length >= 1) {
-    //     item.dates.map((item) => {
-    //       allDates.push(item);
-    //     });
-    //   }
-    // });
-    // console.log("모든 데이터ㅓㅓㅓㅓ", allDates);
-    // 중복되는 날짜 개수 세기
-    // 가장 많은 날짜 5개 뽑기
-    // 날짜를 선택한 멤버 찾기
-
-    // 방법2
     // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
-    const allDates: AllDate[] = [];
+    const allDates: MoimPickDateType[] = [];
 
     res.members.forEach((member) => {
       if (member.dates.length > 0) {
         member.dates.forEach((date) => {
-          const existDate: AllDate | undefined = allDates.find(
+          const existDate: MoimPickDateType | undefined = allDates.find(
             (data) => data.date === date
           );
 
@@ -115,6 +90,17 @@ export default function MoimSelectDate() {
     const topDates = allDates.sort((a, b) => b.count - a.count).slice(0, 5);
     // 상위 5개 뽑기
     console.log("상위 5개 날짜", topDates);
+
+    setMoimData((prev) => {
+      const updateData: MoimData = {
+        ...prev,
+        status: "completed",
+        pickDate: topDates,
+      };
+      return updateData;
+    });
+
+    console.log("현재 모임 상태ㅐㅐㅐㅐ", moimData);
   };
 
   const handleMoimStatus = async () => {
