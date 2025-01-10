@@ -13,7 +13,7 @@ export default function MoimCreate() {
   const router = useRouter();
   const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
-    status: "",
+    status: "ready",
     members: [],
     startDate: null,
     endDate: null,
@@ -100,7 +100,8 @@ export default function MoimCreate() {
 
   // 모임 참여자 추가
   const handleMemberAdd = () => {
-    if (memberName !== "" && membersArray.length < 10) {
+    const existName = membersArray.some((item) => item === memberName);
+    if (memberName !== "" && membersArray.length < 10 && !existName) {
       setMembersArray([...membersArray, memberName]);
       setMemberName("");
     }
