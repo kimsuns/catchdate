@@ -3,6 +3,16 @@
 import { useEffect, useState } from "react";
 
 export default function MoimTheDay() {
+  const [moimData, setMoimData] = useState({
+    title: "",
+    status: "ready",
+    members: [],
+    startDate: null,
+    endDate: null,
+    time: "",
+    pickDate: [],
+    top3: [],
+  });
   const [queryId, setQueryId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -10,6 +20,7 @@ export default function MoimTheDay() {
     const id = searchParams.get("id");
     setQueryId(id);
   }, []);
+
   return (
     <div className="flex flex-col items-center">
       <section className="text-black font-suit text-[28px] font-semibold leading-none">
