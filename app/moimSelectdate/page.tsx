@@ -1,7 +1,12 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { getMoimApi, updateMoimApi, updateMoimStatusApi } from "../api/api";
+import {
+  getMoimApi,
+  updateMoimMemberApi,
+  updateMoimPickDateApi,
+  updateMoimStatusApi,
+} from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
@@ -60,7 +65,16 @@ export default function MoimSelectDate() {
     setQueryId(id);
   }, []);
 
-  const handleMoimPickDate = (res: MoimData) => {
+  const handleMoimPickDate = async (data: MoimPickDateType[]) => {
+    try {
+      const res = await updateMoimPickDateApi(queryId as string, data);
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getPickDate = (res: MoimData) => {
     // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
     const allDates: MoimPickDateType[] = [];
 
@@ -90,6 +104,8 @@ export default function MoimSelectDate() {
     const topDates = allDates.sort((a, b) => b.count - a.count).slice(0, 5);
     // 상위 5개 뽑기
     console.log("상위 5개 날짜", topDates);
+
+    handleMoimPickDate(topDates);
 
     setMoimData((prev) => {
       const updateData: MoimData = {
@@ -122,7 +138,7 @@ export default function MoimSelectDate() {
 
       if (!hasUnchooseMember) {
         console.log("모든 멤버가 선택했습니다.");
-        handleMoimPickDate(res);
+        getPickDate(res);
         // setOnSelectAll(true);
         handleMoimStatus();
         setMoimData((prev) => {
