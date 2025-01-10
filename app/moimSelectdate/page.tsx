@@ -1,14 +1,20 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { getMoimApi, updateMoimApi, updateMoimStatusApi } from "../api/api";
+import {
+  getMoimApi,
+  updateMoimMemberApi,
+  updateMoimPickDateApi,
+  updateMoimStatusApi,
+} from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
-import { MoimDataType, MoimMemberType } from "../type/type";
+import { MoimDataType, MoimMemberType, MoimPickDateType } from "../type/type";
 import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
+import { count } from "console";
 
 // 6780ee62bf56c026c1d91944
 // 678126c9d1f6eae9c04662a4
@@ -59,26 +65,59 @@ export default function MoimSelectDate() {
     setQueryId(id);
   }, []);
 
-  // const handleMoimPickDate = () => {
-  //   console.log("모든 멤버가 선택한 날짜");
-  //   const allDates = [];
+  const handleMoimPickDate = async (data: MoimPickDateType[]) => {
+    try {
+      const res = await updateMoimPickDateApi(queryId as string, data);
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  //   const [existDates, setExistDates] = useState([]);
+  const getPickDate = (res: MoimData) => {
+    // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
+    const allDates: MoimPickDateType[] = [];
 
-  //   // 멤버 전체 돌리기기
-  //   moimData.members.map((item) => {
-  //     // 멤버가 선택한 dates 전체 돌리기
-  //     if (item.dates.length > 1) {
-  //       item.dates.map((item) => {
-  //         allDates.push(item);
-  //       });
-  //     }
-  //   });
+    res.members.forEach((member) => {
+      if (member.dates.length > 0) {
+        member.dates.forEach((date) => {
+          const existDate: MoimPickDateType | undefined = allDates.find(
+            (data) => data.date === date
+          );
 
-  //   // 중복되는 date는
+          // 중복되는 날짜가 있을 경우, {count: ++, merber: []}
+          if (existDate) {
+            existDate.count += 1;
+            existDate.members.push(member.name);
+          } else {
+            allDates.push({
+              date,
+              count: 1,
+              members: [member.name],
+            });
+          }
+        });
+      }
+    });
 
-  //   console.log("모든 데이터", allDates);
-  // };
+    // count 높은 순으로 정렬
+    const topDates = allDates.sort((a, b) => b.count - a.count).slice(0, 5);
+    // 상위 5개 뽑기
+    console.log("상위 5개 날짜", topDates);
+
+    handleMoimPickDate(topDates);
+
+    setMoimData((prev) => {
+      const updateData: MoimData = {
+        ...prev,
+        status: "completed",
+        pickDate: topDates,
+      };
+      return updateData;
+    });
+
+    console.log("현재 모임 상태ㅐㅐㅐㅐ", moimData);
+  };
 
   const handleMoimStatus = async () => {
     try {
@@ -99,7 +138,7 @@ export default function MoimSelectDate() {
 
       if (!hasUnchooseMember) {
         console.log("모든 멤버가 선택했습니다.");
-        // handleMoimPickDate();
+        getPickDate(res);
         // setOnSelectAll(true);
         handleMoimStatus();
         setMoimData((prev) => {
@@ -146,7 +185,7 @@ export default function MoimSelectDate() {
 
   const onUpdateMoim = async () => {
     try {
-      const res = await updateMoimApi(queryId as string, selectMember);
+      const res = await updateMoimMemberApi(queryId as string, selectMember);
       if (res?.status === 200) {
         getMoimData();
       }
