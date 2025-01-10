@@ -5,9 +5,10 @@ import { getMoimApi, updateMoimApi } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
-import { MoimMemberType } from "../type/type";
+import { MoimDataType, MoimMemberType } from "../type/type";
 import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
+import { useRouter } from "next/navigation";
 
 // 676d1181eb17bca63e11c0e5
 
@@ -19,11 +20,15 @@ import { useModal } from "../hooks/useModal/useModal";
 // 677fb091ffadeb5ea00dd220
 // 677fe1f73041b3f32072b966
 
+interface MoimData extends MoimDataType {
+  _id: string;
+}
+
 export default function MoimSelectDate() {
-  const [moimData, setMoimData] = useState({
+  const [moimData, setMoimData] = useState<MoimData>({
     _id: "",
     title: "",
-    status: "",
+    status: "ready",
     members: [],
     startDate: null,
     endDate: null,
@@ -32,7 +37,7 @@ export default function MoimSelectDate() {
     top3: [],
   });
   const [onEditDate, setOnEditDate] = useState(false);
-  const [onSelectAll, setOnSelectAll] = useState(false);
+  // const [onSelectAll, setOnSelectAll] = useState(false);
   const [selectMember, setSelectMember] = useState<MoimMemberType>({
     memberId: "",
     name: "",
@@ -41,6 +46,7 @@ export default function MoimSelectDate() {
   });
   const [queryId, setQueryId] = useState<string | null>(null);
   const { Modal, openModal, closeModal } = useModal();
+  const router = useRouter();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -52,6 +58,22 @@ export default function MoimSelectDate() {
     try {
       const res = await getMoimApi(queryId as string);
       setMoimData(res);
+
+      const hasUnchooseMember = res.members.some(
+        (item: MoimMemberType) => item.choose === false
+      );
+
+      if (!hasUnchooseMember) {
+        console.log("모든 멤버가 선택했습니다.");
+        // setOnSelectAll(true);
+        setMoimData((prev) => {
+          const updateData: MoimData = {
+            ...prev,
+            status: "completed",
+          };
+          return updateData;
+        });
+      }
     } catch (error) {
       console.error("모임 데이터를 가져오지 못 했습니다.", error);
     }
@@ -108,6 +130,11 @@ export default function MoimSelectDate() {
     });
   };
 
+  const handleMoveMoimTheDayPage = () => {
+    console.log("날짜 확인 가즈아");
+    router.push(`/moimTheday?id=${queryId}`);
+  };
+
   return (
     <div className="relative flex flex-col items-center h-full">
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
@@ -136,7 +163,8 @@ export default function MoimSelectDate() {
         ) : (
           <SelectName
             member={moimData.members}
-            onSelectAll={onSelectAll}
+            status={moimData.status}
+            onSelectAll={handleMoveMoimTheDayPage}
             onSelectMember={onSelectMember}
             selectName={selectMember.name}
           />

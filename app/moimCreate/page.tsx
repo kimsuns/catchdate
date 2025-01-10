@@ -13,7 +13,7 @@ export default function MoimCreate() {
   const router = useRouter();
   const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
-    status: "",
+    status: "ready",
     members: [],
     startDate: null,
     endDate: null,

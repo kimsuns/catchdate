@@ -1,19 +1,22 @@
 import { useState } from "react";
 import NameTable from "./NameTable";
 import { MoimMemberType } from "@/app/type/type";
+import Button from "@/app/components/Button/Button";
+import { useRouter } from "next/router";
 
 interface SelectNameProps {
   member: MoimMemberType[];
-  onSelectAll: boolean;
-  // onSelectMember: () => void;
+  status: "ready" | "completed";
   onSelectMember: (value: MoimMemberType) => void;
+  onSelectAll: () => void;
   selectName: string;
 }
 
 export default function SelectName({
   member,
-  onSelectAll,
+  status,
   onSelectMember,
+  onSelectAll,
   selectName,
 }: SelectNameProps) {
   const handleClickName = (item: MoimMemberType): void => {
@@ -25,9 +28,14 @@ export default function SelectName({
   return (
     <div className="flex flex-col gap-10 items-center">
       <div className="text-center">
-        {onSelectAll
-          ? "모두 선택하였습니다. 날짜를 확인하세요."
-          : "이름을 선택하세요."}
+        {status === "completed" ? (
+          <div className="flex flex-col">
+            <span>모두 선택하였습니다.</span>
+            <span>날짜를 확인하세요.</span>
+          </div>
+        ) : (
+          "이름을 선택하세요."
+        )}
       </div>
       <div className="grid grid-cols-2 gap-3">
         {Array.isArray(member) &&
@@ -62,13 +70,15 @@ export default function SelectName({
           ))}
       </div>
       <div className="text-center">
-        {selectName && (
+        {status === "ready" && selectName && (
           <div className="flex items-center justify-center">
             <div className="text-[#3a8bb5] font-bold">{selectName}</div>
             님을 선택하셨습니다.
           </div>
         )}
-        {onSelectAll && <button>날짜 확인하기</button>}
+        {status === "completed" && (
+          <Button onClick={onSelectAll}>날짜 확인하러 가기</Button>
+        )}
       </div>
     </div>
   );
