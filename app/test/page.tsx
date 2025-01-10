@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import Calendar from "../components/Calendar/Calendar";
 import { useModal } from "../hooks/useModal/useModal";
-import { getMoimApi, testApi } from "../api/api";
+import { getMoimApi, testApi, updateMoimStatusApi } from "../api/api";
 
 export default function Test() {
   const { Modal, openModal, closeModal } = useModal();
@@ -19,7 +19,8 @@ export default function Test() {
 
   const handleApi = async () => {
     try {
-      const res = await getMoimApi("6780ee62bf56c026c1d91944");
+      // const res = await getMoimApi("6780ee62bf56c026c1d91944");
+      const res = await updateMoimStatusApi("678126c9d1f6eae9c04662a4");
       // const res = await testApi();
       console.log("응답", res);
     } catch (error) {

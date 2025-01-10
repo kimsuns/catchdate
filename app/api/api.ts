@@ -38,6 +38,17 @@ export const updateMoimApi = async (id: string, data: MoimMemberType) => {
   }
 };
 
+// 모임 상태 업데이트
+export const updateMoimStatusApi = async (id: string) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/status/${id}`);
+    console.log("모임 상태 업데이트 성공", res);
+    return res;
+  } catch (error) {
+    console.error("모임 업데이트 실패", error);
+  }
+};
+
 // 테스트 api
 export const testApi = async () => {
   try {
