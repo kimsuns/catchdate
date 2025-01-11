@@ -6,6 +6,7 @@ import {
   updateMoimMemberApi,
   updateMoimPickDateApi,
   updateMoimStatusApi,
+  updateMoimTopDateApi,
 } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
@@ -31,13 +32,12 @@ import { count } from "console";
 // 677fb091ffadeb5ea00dd220
 // 677fe1f73041b3f32072b966
 
-interface MoimData extends MoimDataType {
-  _id: string;
-}
+// interface MoimData extends MoimDataType {
+//   _id: string;
+// }
 
 export default function MoimSelectDate() {
-  const [moimData, setMoimData] = useState<MoimData>({
-    _id: "",
+  const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
     status: "ready",
     members: [],
@@ -74,7 +74,16 @@ export default function MoimSelectDate() {
     }
   };
 
-  const getPickDate = (res: MoimData) => {
+  const handleMoimTopDate = async (data: MoimTopDateType[]) => {
+    try {
+      const res = await updateMoimTopDateApi(queryId as string, data);
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getPickDate = (res: MoimDataType) => {
     // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
     const allDates: MoimTopDateType[] = [];
 
@@ -122,6 +131,8 @@ export default function MoimSelectDate() {
 
     if (allPickDate.length >= 1) {
       handleMoimPickDate(allPickDate);
+    } else {
+      handleMoimTopDate(manyPickDate);
     }
   };
 
@@ -148,7 +159,7 @@ export default function MoimSelectDate() {
         // setOnSelectAll(true);
         handleMoimStatus();
         setMoimData((prev) => {
-          const updateData: MoimData = {
+          const updateData: MoimDataType = {
             ...prev,
             status: "completed",
           };
