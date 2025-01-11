@@ -32,13 +32,12 @@ import { count } from "console";
 // 677fb091ffadeb5ea00dd220
 // 677fe1f73041b3f32072b966
 
-interface MoimData extends MoimDataType {
-  _id: string;
-}
+// interface MoimData extends MoimDataType {
+//   _id: string;
+// }
 
 export default function MoimSelectDate() {
-  const [moimData, setMoimData] = useState<MoimData>({
-    _id: "",
+  const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
     status: "ready",
     members: [],
@@ -84,7 +83,7 @@ export default function MoimSelectDate() {
     }
   };
 
-  const getPickDate = (res: MoimData) => {
+  const getPickDate = (res: MoimDataType) => {
     // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
     const allDates: MoimTopDateType[] = [];
 
@@ -160,7 +159,7 @@ export default function MoimSelectDate() {
         // setOnSelectAll(true);
         handleMoimStatus();
         setMoimData((prev) => {
-          const updateData: MoimData = {
+          const updateData: MoimDataType = {
             ...prev,
             status: "completed",
           };
