@@ -10,7 +10,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
-import { MoimDataType, MoimMemberType, MoimPickDateType } from "../type/type";
+import { MoimDataType, MoimMemberType, MoimTopDateType } from "../type/type";
 import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
@@ -44,8 +44,8 @@ export default function MoimSelectDate() {
     startDate: null,
     endDate: null,
     time: "",
-    pickDate: [],
-    top3: [],
+    allPickDate: [],
+    topDate: [],
   });
   const [onEditDate, setOnEditDate] = useState(false);
   // const [onSelectAll, setOnSelectAll] = useState(false);
@@ -65,7 +65,7 @@ export default function MoimSelectDate() {
     setQueryId(id);
   }, []);
 
-  const handleMoimPickDate = async (data: MoimPickDateType[]) => {
+  const handleMoimPickDate = async (data: Date[]) => {
     try {
       const res = await updateMoimPickDateApi(queryId as string, data);
       console.log("응답", res);
@@ -76,12 +76,12 @@ export default function MoimSelectDate() {
 
   const getPickDate = (res: MoimData) => {
     // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
-    const allDates: MoimPickDateType[] = [];
+    const allDates: MoimTopDateType[] = [];
 
     res.members.forEach((member) => {
       if (member.dates.length > 0) {
         member.dates.forEach((date) => {
-          const existDate: MoimPickDateType | undefined = allDates.find(
+          const existDate: MoimTopDateType | undefined = allDates.find(
             (data) => data.date === date
           );
 
@@ -102,21 +102,27 @@ export default function MoimSelectDate() {
 
     // count 높은 순으로 정렬
     const topDates = allDates.sort((a, b) => b.count - a.count).slice(0, 5);
-    // 상위 5개 뽑기
-    console.log("상위 5개 날짜", topDates);
+    const allPickDate: Date[] = [];
+    const manyPickDate: MoimTopDateType[] = [];
 
-    handleMoimPickDate(topDates);
-
-    setMoimData((prev) => {
-      const updateData: MoimData = {
-        ...prev,
-        status: "completed",
-        pickDate: topDates,
-      };
-      return updateData;
+    topDates.map((item) => {
+      if (item.members.length >= res.members.length) {
+        // 모든 멤버가 선택한 날짜
+        allPickDate.push(item.date);
+      } else {
+        // 모든 멤버가 선택한 날짜가 없을 경우
+        manyPickDate.push(item);
+      }
     });
 
-    console.log("현재 모임 상태ㅐㅐㅐㅐ", moimData);
+    // 상위 5개 뽑기
+    console.log("상위 5개 날짜", topDates);
+    console.log("모든 멤버가 선택한 날짜", allPickDate);
+    console.log("제일 많은 멤버가 선택한 날짜", manyPickDate);
+
+    if (allPickDate.length >= 1) {
+      handleMoimPickDate(allPickDate);
+    }
   };
 
   const handleMoimStatus = async () => {

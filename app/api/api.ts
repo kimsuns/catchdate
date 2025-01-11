@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MoimDataType, MoimMemberType, MoimPickDateType } from "../type/type";
+import { MoimDataType, MoimMemberType, MoimTopDateType } from "../type/type";
 
 const BASE_URL = "http://localhost:5000/api/moim";
 // const BASE_URL = `${process.env.NEXT_PUBLIC_CATCHDATE_API_URL}/api/moim`;
@@ -49,10 +49,7 @@ export const updateMoimStatusApi = async (id: string) => {
   }
 };
 
-export const updateMoimPickDateApi = async (
-  id: string,
-  data: MoimPickDateType[]
-) => {
+export const updateMoimPickDateApi = async (id: string, data: Date[]) => {
   try {
     const res = await axios.put(`${BASE_URL}/pick/${id}`, data);
     console.log("모임 Pick 업데이트 성공", res);
