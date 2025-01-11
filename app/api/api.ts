@@ -49,10 +49,25 @@ export const updateMoimStatusApi = async (id: string) => {
   }
 };
 
+// 모임 Pick 날짜 업데이트
 export const updateMoimPickDateApi = async (id: string, data: Date[]) => {
   try {
     const res = await axios.put(`${BASE_URL}/pick/${id}`, data);
     console.log("모임 Pick 업데이트 성공", res);
+    return res;
+  } catch (error) {
+    console.error("모임 업데이트 실패", error);
+  }
+};
+
+// 모임 top 날짜 업데이트
+export const updateMoimTopDateApi = async (
+  id: string,
+  data: MoimTopDateType[]
+) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/top/${id}`, data);
+    console.log("모임 Top 날짜 업데이트 성공", res);
     return res;
   } catch (error) {
     console.error("모임 업데이트 실패", error);
