@@ -6,6 +6,7 @@ import {
   updateMoimMemberApi,
   updateMoimPickDateApi,
   updateMoimStatusApi,
+  updateMoimTopDateApi,
 } from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
@@ -74,6 +75,15 @@ export default function MoimSelectDate() {
     }
   };
 
+  const handleMoimTopDate = async (data: MoimTopDateType[]) => {
+    try {
+      const res = await updateMoimTopDateApi(queryId as string, data);
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getPickDate = (res: MoimData) => {
     // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
     const allDates: MoimTopDateType[] = [];
@@ -122,6 +132,8 @@ export default function MoimSelectDate() {
 
     if (allPickDate.length >= 1) {
       handleMoimPickDate(allPickDate);
+    } else {
+      handleMoimTopDate(manyPickDate);
     }
   };
 
