@@ -49,10 +49,7 @@ export const updateMoimStatusApi = async (id: string) => {
   }
 };
 
-export const updateMoimPickDateApi = async (
-  id: string,
-  data: MoimTopDateType[]
-) => {
+export const updateMoimPickDateApi = async (id: string, data: Date[]) => {
   try {
     const res = await axios.put(`${BASE_URL}/pick/${id}`, data);
     console.log("모임 Pick 업데이트 성공", res);

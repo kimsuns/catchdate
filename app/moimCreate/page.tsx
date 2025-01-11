@@ -18,8 +18,8 @@ export default function MoimCreate() {
     startDate: null,
     endDate: null,
     time: "",
-    pickDate: [],
-    top3: [],
+    allPickDate: [],
+    topDate: [],
   });
 
   const [membersArray, setMembersArray] = useState<string[]>([]);
