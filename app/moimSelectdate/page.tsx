@@ -102,19 +102,32 @@ export default function MoimSelectDate() {
 
     // count 높은 순으로 정렬
     const topDates = allDates.sort((a, b) => b.count - a.count).slice(0, 5);
+    const allPickDate: MoimPickDateType[] = [];
+    const manyPickDate: MoimPickDateType[] = [];
+
+    topDates.map((item) => {
+      if (item.members.length >= res.members.length) {
+        // 모든 멤버가 선택한 날짜
+        allPickDate.push(item);
+      } else {
+        // 모든 멤버가 선택한 날짜가 없을 경우
+        manyPickDate.push(item);
+      }
+    });
+
     // 상위 5개 뽑기
     console.log("상위 5개 날짜", topDates);
+    console.log("모든 멤버가 선택한 날짜", allPickDate);
+    console.log("제일 많은 멤버가 선택한 날짜", manyPickDate);
 
-    handleMoimPickDate(topDates);
-
-    setMoimData((prev) => {
-      const updateData: MoimData = {
-        ...prev,
-        status: "completed",
-        pickDate: topDates,
-      };
-      return updateData;
-    });
+    // setMoimData((prev) => {
+    //   const updateData: MoimData = {
+    //     ...prev,
+    //     status: "completed",
+    //     pickDate: topDates,
+    //   };
+    //   return updateData;
+    // });
 
     console.log("현재 모임 상태ㅐㅐㅐㅐ", moimData);
   };
