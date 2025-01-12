@@ -1,6 +1,12 @@
 import { MoimPickDateType } from "@/app/type/type";
 
-export default function TheDayCalendar({ date }: { date: Date }) {
+export default function TheDayCalendar({
+  date,
+  time,
+}: {
+  date: Date;
+  time: string;
+}) {
   const days = ["일", "월", "화", "수", "목", "금", "토"];
 
   return (
@@ -20,11 +26,11 @@ export default function TheDayCalendar({ date }: { date: Date }) {
     //   </div>
     // </div>
     <div className="relative flex flex-col items-center">
-      <div className="w-full">
+      <div className="w-full h-full">
         <img
           src="/images/calendar.png"
           alt="calendar background"
-          className="w-full h-auto"
+          className="w-full h-full"
         />
       </div>
       <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-[150px] flex flex-col">
@@ -32,12 +38,15 @@ export default function TheDayCalendar({ date }: { date: Date }) {
           {new Date(date).getMonth() + 1}월
         </div>
         <div className="w-full bg-white bg-opacity-50 h-[100px] flex flex-col items-center justify-center">
-          <div className="text-3xl font-bold text-black">
-            {new Date(date).getDate()}
+          <div className="flex gap-2">
+            <div className="text-3xl font-bold text-black">
+              {new Date(date).getDate()}
+            </div>
+            <div className="text-lg text-black mt-1">
+              ({days[new Date(date).getDay()]})
+            </div>
           </div>
-          <div className="text-lg text-black mt-1">
-            {days[new Date(date).getDay()]}
-          </div>
+          <div className="text-[#3a8bb5] font-bold">{time}</div>
         </div>
       </div>
     </div>

@@ -45,9 +45,9 @@ export default function MoimTheDay() {
 
   return (
     <div className="flex flex-col items-center h-full">
-      <header className="text-black font-suit text-[28px] font-semibold leading-none">
+      {/* <header className="text-black font-suit text-[28px] font-semibold leading-none">
         모임 날짜 확인하기
-      </header>
+      </header> */}
       <main className="flex-1 overflow-y-auto flex-col items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
         <div className="font-bold text-[18px] text-center uppercase mb-4 text-[#3a8bb5]">
           {moimData.title}
@@ -85,9 +85,14 @@ export default function MoimTheDay() {
           )}
         </div>
       </main>
-      <footer className="flex w-full gap-5">
-        <Button>이미지 저장</Button>
-        <Button>공유하기</Button>
+      <footer className="flex flex-col w-full gap-2">
+        <div className="flex w-full gap-5">
+          <Button>이미지 저장</Button>
+          <Button>공유하기</Button>
+        </div>
+        <div className="text-[12px] text-center text-gray-500 underline">
+          새로운 모임 날짜 잡으러 가기
+        </div>
       </footer>
     </div>
   );
