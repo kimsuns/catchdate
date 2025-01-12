@@ -5,6 +5,7 @@ import { getMoimApi } from "../api/api";
 import TheDay from "./components/TheDay";
 import Button from "../components/Button/Button";
 import { MoimDataType } from "../type/type";
+import { useRouter } from "next/navigation";
 // allPickDate 날짜
 // 67821836b095e13967864d9b
 
@@ -24,6 +25,7 @@ export default function MoimTheDay() {
   });
   const [queryId, setQueryId] = useState<string | null>(null);
   const [unableMember, setUnableMember] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -82,13 +84,6 @@ export default function MoimTheDay() {
                 />
               )}
             </div>
-            // <div>
-            //   <div>아쉽지만 모두 가능한 날짜가 없어요!</div>
-            //   <div>
-            //     대신 최대한 많은 멤버가 참여 가능한 날짜를 알려드릴게요!
-            //   </div>
-
-            // </div>
           )}
         </div>
       </main>
@@ -97,9 +92,12 @@ export default function MoimTheDay() {
           <Button onClick={() => {}}>이미지 저장</Button>
           <Button onClick={() => {}}>공유하기</Button>
         </div>
-        <div className="text-[12px] text-center text-gray-500 underline">
+        <button
+          onClick={() => router.push("/")}
+          className="text-[12px] text-center text-gray-500 underline"
+        >
           새로운 모임 날짜 잡으러 가기
-        </div>
+        </button>
       </footer>
     </div>
   );
