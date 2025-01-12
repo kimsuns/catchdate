@@ -55,7 +55,11 @@ export default function MoimTheDay() {
         <div className="w-full p-[20px] bg-white">
           {moimData.allPickDate.length >= 1 ? (
             <div>
-              <TheDay data={moimData.allPickDate[0]} time={moimData.time} />
+              <TheDay
+                data={moimData.allPickDate[0]}
+                time={moimData.time}
+                isAllPick={true}
+              />
             </div>
           ) : (
             <div>
