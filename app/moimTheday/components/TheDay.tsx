@@ -6,8 +6,15 @@ interface TheDay {
   data: MoimPickDateType;
   time: string;
   isAllPick: boolean;
+  noJoin?: string[];
 }
-export default function TheDay({ data, time, isAllPick }: TheDay) {
+export default function TheDay({
+  data,
+  time,
+  isAllPick,
+  noJoin = undefined,
+}: TheDay) {
+  console.log("불참멤버", noJoin);
   return (
     <div className=" w-full h-full flex flex-col gap-7">
       <BorderBox title={"Pick 날짜"}>
@@ -16,7 +23,7 @@ export default function TheDay({ data, time, isAllPick }: TheDay) {
       </BorderBox>
 
       <BorderBox
-        title={isAllPick ? "참여 멤버" : `참여 멤버 (${data.members.length})`}
+        title={!noJoin ? "참여 멤버" : `참여 멤버 (${data.members.length})`}
       >
         <div className="grid grid-cols-5 text-[12px]">
           {data.members.map((item, index) => (
@@ -28,10 +35,23 @@ export default function TheDay({ data, time, isAllPick }: TheDay) {
         </div>
       </BorderBox>
 
-      {!isAllPick && <BorderBox title="불참 멤버">아아</BorderBox>}
+      {noJoin && (
+        <BorderBox title={`불참 멤버 (${noJoin.length})`}>
+          <div className="grid grid-cols-5 text-[12px]">
+            {noJoin.map((item, index) => (
+              <div key={index} className="">
+                <span className="text-[#3a8bb5]">{item}</span>
+                {index !== data.members.length - 1 && ","}
+              </div>
+            ))}
+          </div>
+        </BorderBox>
+      )}
 
       <div className="text-[12px] text-center text-gray-500">
-        {isAllPick ? "전원 참석 가능! 🥳" : "전원 참석 가능 날짜 다시 잡기"}
+        {isAllPick
+          ? "전원 참석 가능! 🥳"
+          : "전원 참석 가능한 날짜를 다시 잡아보세요!"}
       </div>
     </div>
   );

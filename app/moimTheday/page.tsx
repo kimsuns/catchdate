@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getMoimApi } from "../api/api";
 import TheDay from "./components/TheDay";
 import Button from "../components/Button/Button";
+import { MoimDataType } from "../type/type";
 // allPickDate 날짜
 // 67821836b095e13967864d9b
 
@@ -22,6 +23,7 @@ export default function MoimTheDay() {
     topDate: [],
   });
   const [queryId, setQueryId] = useState<string | null>(null);
+  const [unableMember, setUnableMember] = useState<string[]>([]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -33,9 +35,22 @@ export default function MoimTheDay() {
     try {
       const res = await getMoimApi(queryId as string);
       setMoimData(res);
+      handleUnableMember(res);
     } catch (error) {
       console.error("모임 데이터를 가져오지 못 했습니다.", error);
     }
+  };
+
+  const handleUnableMember = (data: MoimDataType) => {
+    if (data.allPickDate.length >= 1) {
+      return;
+    }
+
+    const noexistMember = data.members
+      .filter((member) => !data.topDate[0].members.includes(member.name))
+      .map((member) => member.name);
+
+    setUnableMember(noexistMember);
   };
 
   useEffect(() => {
@@ -45,9 +60,9 @@ export default function MoimTheDay() {
 
   return (
     <div className="flex flex-col items-center h-full">
-      {/* <header className="text-black font-suit text-[28px] font-semibold leading-none">
-        모임 날짜 확인하기
-      </header> */}
+      <header className="text-black font-suit text-[28px] font-semibold leading-none">
+        캐치데이트 날짜 확인
+      </header>
       <main className="flex-1 overflow-y-auto flex-col items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
         <div className="font-bold text-[18px] text-center uppercase mb-4 text-[#3a8bb5]">
           {moimData.title}
@@ -63,32 +78,29 @@ export default function MoimTheDay() {
             </div>
           ) : (
             <div>
-              <div>아쉽지만 모두 가능한 날짜가 없어요!</div>
-              <div>
-                대신 최대한 많은 멤버가 참여 가능한 날짜를 알려드릴게요!
-              </div>
-              {moimData.topDate.map((item) => (
-                <div>
-                  <div>{new Date(item.date).toLocaleDateString()}</div>
-                  <div>
-                    참여 가능한 멤버
-                    {item.members.map((member, index) => (
-                      <div key={index}>
-                        {member}
-                        {index !== item.members.length - 1 && ","}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              {moimData.topDate.length >= 1 && (
+                <TheDay
+                  data={moimData.topDate[0]}
+                  time={moimData.time}
+                  isAllPick={false}
+                  noJoin={unableMember}
+                />
+              )}
             </div>
+            // <div>
+            //   <div>아쉽지만 모두 가능한 날짜가 없어요!</div>
+            //   <div>
+            //     대신 최대한 많은 멤버가 참여 가능한 날짜를 알려드릴게요!
+            //   </div>
+
+            // </div>
           )}
         </div>
       </main>
       <footer className="flex flex-col w-full gap-2">
         <div className="flex w-full gap-5">
-          <Button>이미지 저장</Button>
-          <Button>공유하기</Button>
+          <Button onClick={() => {}}>이미지 저장</Button>
+          <Button onClick={() => {}}>공유하기</Button>
         </div>
         <div className="text-[12px] text-center text-gray-500 underline">
           새로운 모임 날짜 잡으러 가기
