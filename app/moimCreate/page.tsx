@@ -93,7 +93,7 @@ export default function MoimCreate() {
     }
 
     // 모임 참여자 이름 글자수 제한
-    if (name === "members" && value !== null && value.length <= 4) {
+    if (name === "members" && value !== null && value.length <= 3) {
       setMemberName(value);
     }
   };
