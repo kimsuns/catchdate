@@ -82,13 +82,6 @@ export default function MoimTheDay() {
                 />
               )}
             </div>
-            // <div>
-            //   <div>아쉽지만 모두 가능한 날짜가 없어요!</div>
-            //   <div>
-            //     대신 최대한 많은 멤버가 참여 가능한 날짜를 알려드릴게요!
-            //   </div>
-
-            // </div>
           )}
         </div>
       </main>

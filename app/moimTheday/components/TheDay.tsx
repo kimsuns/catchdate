@@ -42,9 +42,14 @@ export default function TheDay({ data, time, noJoin = undefined }: TheDay) {
       )}
 
       <div className="text-[12px] text-center text-gray-500">
-        {!noJoin
-          ? "전원 참석 가능! 🥳"
-          : "전원 참석 가능한 날짜를 다시 잡아보세요!"}
+        {!noJoin ? (
+          "전원 참석 가능! 🥳"
+        ) : (
+          <div className="flex flex-col">
+            <span>아쉽지만 모두 가능한 날짜가 없어요! 😨😭</span>
+            <span>대신 많은 멤버가 Pick한 날짜를 알려드려요!</span>
+          </div>
+        )}
       </div>
     </div>
   );
