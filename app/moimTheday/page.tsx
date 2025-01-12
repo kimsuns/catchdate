@@ -51,20 +51,20 @@ export default function MoimTheDay() {
         <div className="font-bold text-[18px] text-center uppercase mb-4 text-[#3a8bb5]">
           {moimData.title}
         </div>
-        <div className="flex gap-2 font-bold">
-          멤버 :
-          {moimData.members.map((item, index) => (
-            <div key={index}>
-              <span className="text-[#3a8bb5]">{item.name}</span>
-              {index !== moimData.members.length - 1 && ","}
-            </div>
-          ))}
-        </div>
         <div>
           {moimData.allPickDate.length >= 1 ? (
             <div>
-              <div>모두 가능한 날짜</div>
-              <TheDay date={moimData.allPickDate[0]} />
+              <div>우리가 Pick 한 날짜</div>
+              <TheDay date={moimData.allPickDate[0]} time={moimData.time} />
+              <div className="flex gap-2 font-bold">
+                참여 멤버 :
+                {moimData.members.map((item, index) => (
+                  <div key={index}>
+                    <span className="text-[#3a8bb5]">{item.name}</span>
+                    {index !== moimData.members.length - 1 && ","}
+                  </div>
+                ))}
+              </div>
 
               {/* {moimData.allPickDate.map((item) => (
                 <div>
