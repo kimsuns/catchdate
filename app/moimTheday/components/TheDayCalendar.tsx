@@ -26,11 +26,11 @@ export default function TheDayCalendar({
     //   </div>
     // </div>
     <div className="relative flex flex-col items-center">
-      <div className="w-full h-full">
+      <div className="w-full">
         <img
           src="/images/calendar.png"
           alt="calendar background"
-          className="w-full h-full"
+          className="w-full"
         />
       </div>
       <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-[150px] flex flex-col">

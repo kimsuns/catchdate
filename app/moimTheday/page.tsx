@@ -62,7 +62,7 @@ export default function MoimTheDay() {
   }, [queryId]);
 
   return (
-    <div className="flex flex-col items-center h-full overflow-hidden">
+    <div className="flex flex-col items-center h-full">
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
         캐치데이트 날짜 확인
       </header>
@@ -75,11 +75,9 @@ export default function MoimTheDay() {
         </div>
         <div className="w-full p-[20px] bg-white">
           {moimData.allPickDate.length >= 1 ? (
-            <div>
-              <TheDay data={moimData.allPickDate[0]} time={moimData.time} />
-            </div>
+            <TheDay data={moimData.allPickDate[0]} time={moimData.time} />
           ) : (
-            <div>
+            <div className="">
               {moimData.topDate.length >= 1 && (
                 <TheDay
                   data={moimData.topDate[0]}
