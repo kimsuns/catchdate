@@ -65,7 +65,10 @@ export default function MoimTheDay() {
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
         캐치데이트 날짜 확인
       </header>
-      <main className="flex-1 overflow-y-auto flex-col items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
+      <main
+        id="moimTheDayDocument"
+        className="flex-1 overflow-y-auto flex-col items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar"
+      >
         <div className="font-bold text-[18px] text-center uppercase mb-4 text-[#3a8bb5]">
           {moimData.title}
         </div>
