@@ -17,24 +17,11 @@ import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
 import { count } from "console";
 
-// 6780ee62bf56c026c1d91944
-// 678126c9d1f6eae9c04662a4
-// 6780efdbbf56c026c1d919b5
+// allPickDate 날짜
+// 6783547fb17dabb058f8b65a
 
-// 6780ee62bf56c026c1d9194c
-// 678126c9d1f6eae9c04662a0
-
-// 내용 꽉 찬 예시시
-// 6777f0c59fe275be55856418
-
-// 날짜 생성
-// 677df17429403c63c51d695b
-// 677fb091ffadeb5ea00dd220
-// 677fe1f73041b3f32072b966
-
-// interface MoimData extends MoimDataType {
-//   _id: string;
-// }
+// topDate 날짜
+// 678218f4b095e13967864dd6
 
 export default function MoimSelectDate() {
   const [moimData, setMoimData] = useState<MoimDataType>({
@@ -110,7 +97,16 @@ export default function MoimSelectDate() {
     });
 
     // count 높은 순으로 정렬
-    const topDates = allDates.sort((a, b) => b.count - a.count).slice(0, 5);
+    // const topDates = allDates.sort((a, b) => b.count - a.count).slice(0, 5);
+    const topDates = allDates
+      .sort((a, b) => {
+        if (b.count === a.count) {
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        }
+        return b.count - a.count;
+      })
+      .slice(0, 3);
+
     const allPickDate: Date[] = [];
     const manyPickDate: MoimTopDateType[] = [];
 
