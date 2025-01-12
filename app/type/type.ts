@@ -5,7 +5,7 @@ export interface MoimDataType {
   startDate: Date | null;
   endDate: Date | null;
   time: string;
-  allPickDate: Date[];
+  allPickDate: MoimTopDateType[];
   topDate: MoimTopDateType[];
 }
 

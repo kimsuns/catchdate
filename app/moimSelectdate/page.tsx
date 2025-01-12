@@ -107,13 +107,13 @@ export default function MoimSelectDate() {
       })
       .slice(0, 3);
 
-    const allPickDate: Date[] = [];
+    const allPickDate: MoimTopDateType[] = [];
     const manyPickDate: MoimTopDateType[] = [];
 
     topDates.map((item) => {
       if (item.members.length >= res.members.length) {
         // 모든 멤버가 선택한 날짜
-        allPickDate.push(item.date);
+        allPickDate.push(item);
       } else {
         // 모든 멤버가 선택한 날짜가 없을 경우
         manyPickDate.push(item);
