@@ -6,6 +6,7 @@ import TheDay from "./components/TheDay";
 import Button from "../components/Button/Button";
 import { MoimDataType } from "../type/type";
 import { useRouter } from "next/navigation";
+import SaveImageButton from "../components/Button/SaveImageButton";
 // allPickDate 날짜
 // 67821836b095e13967864d9b
 
@@ -92,7 +93,7 @@ export default function MoimTheDay() {
       </main>
       <footer className="flex flex-col w-full gap-2">
         <div className="flex w-full gap-5">
-          <Button onClick={() => {}}>이미지 저장</Button>
+          <SaveImageButton />
           <Button onClick={() => {}}>공유하기</Button>
         </div>
         <button

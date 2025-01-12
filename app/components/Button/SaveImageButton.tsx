@@ -14,5 +14,5 @@ export default function SaveImageButton() {
     link.download = "catchdate-PickDay.png";
     link.click(); // 사용자가 클릭하지 않아도 다운로드 동작 실행됨
   };
-  return <Button onClick={handleSaveImage}>이미지 저장하기</Button>;
+  return <Button onClick={handleSaveImage}>이미지 저장</Button>;
 }
