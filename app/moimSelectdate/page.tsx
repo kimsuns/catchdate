@@ -17,24 +17,7 @@ import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
 import { count } from "console";
 
-// 6780ee62bf56c026c1d91944
-// 678126c9d1f6eae9c04662a4
-// 6780efdbbf56c026c1d919b5
-
-// 6780ee62bf56c026c1d9194c
-// 678126c9d1f6eae9c04662a0
-
-// 내용 꽉 찬 예시시
-// 6777f0c59fe275be55856418
-
-// 날짜 생성
-// 677df17429403c63c51d695b
-// 677fb091ffadeb5ea00dd220
-// 677fe1f73041b3f32072b966
-
-// interface MoimData extends MoimDataType {
-//   _id: string;
-// }
+// 67821836b095e13967864d9b
 
 export default function MoimSelectDate() {
   const [moimData, setMoimData] = useState<MoimDataType>({
