@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getMoimApi } from "../api/api";
+import TheDay from "./components/TheDay";
 // allPickDate 날짜
 // 67821836b095e13967864d9b
 
@@ -63,10 +64,14 @@ export default function MoimTheDay() {
           {moimData.allPickDate.length >= 1 ? (
             <div>
               <div>모두 가능한 날짜</div>
+              <TheDay date={moimData.allPickDate[0]} />
 
-              {moimData.allPickDate.map((item) => (
-                <div>{new Date(item).toLocaleDateString()}</div>
-              ))}
+              {/* {moimData.allPickDate.map((item) => (
+                <div>
+                  <TheDay date={new Date()}/>
+                  {new Date(item).toLocaleDateString()}
+                </div>
+              ))} */}
             </div>
           ) : (
             <div>

@@ -17,15 +17,11 @@ import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
 import { count } from "console";
 
-<<<<<<< HEAD
-// 67821836b095e13967864d9b
-=======
 // allPickDate 날짜
 // 6783547fb17dabb058f8b65a
 
 // topDate 날짜
 // 678218f4b095e13967864dd6
->>>>>>> dev
 
 export default function MoimSelectDate() {
   const [moimData, setMoimData] = useState<MoimDataType>({
