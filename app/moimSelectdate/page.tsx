@@ -11,17 +11,17 @@ import {
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
-import { MoimDataType, MoimMemberType, MoimTopDateType } from "../type/type";
+import { MoimDataType, MoimMemberType, MoimPickDateType } from "../type/type";
 import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
 import { count } from "console";
 
 // allPickDate 날짜
-// 6783547fb17dabb058f8b65a
+// 6783672457130f155f9f9eba
 
 // topDate 날짜
-// 678218f4b095e13967864dd6
+// 678367b157130f155f9f9ede
 
 export default function MoimSelectDate() {
   const [moimData, setMoimData] = useState<MoimDataType>({
@@ -52,7 +52,7 @@ export default function MoimSelectDate() {
     setQueryId(id);
   }, []);
 
-  const handleMoimPickDate = async (data: Date[]) => {
+  const handleMoimPickDate = async (data: MoimPickDateType[]) => {
     try {
       const res = await updateMoimPickDateApi(queryId as string, data);
       console.log("응답", res);
@@ -61,7 +61,7 @@ export default function MoimSelectDate() {
     }
   };
 
-  const handleMoimTopDate = async (data: MoimTopDateType[]) => {
+  const handleMoimTopDate = async (data: MoimPickDateType[]) => {
     try {
       const res = await updateMoimTopDateApi(queryId as string, data);
       console.log("응답", res);
@@ -72,12 +72,12 @@ export default function MoimSelectDate() {
 
   const getPickDate = (res: MoimDataType) => {
     // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
-    const allDates: MoimTopDateType[] = [];
+    const allDates: MoimPickDateType[] = [];
 
     res.members.forEach((member) => {
       if (member.dates.length > 0) {
         member.dates.forEach((date) => {
-          const existDate: MoimTopDateType | undefined = allDates.find(
+          const existDate: MoimPickDateType | undefined = allDates.find(
             (data) => data.date === date
           );
 
@@ -107,13 +107,13 @@ export default function MoimSelectDate() {
       })
       .slice(0, 3);
 
-    const allPickDate: Date[] = [];
-    const manyPickDate: MoimTopDateType[] = [];
+    const allPickDate: MoimPickDateType[] = [];
+    const manyPickDate: MoimPickDateType[] = [];
 
     topDates.map((item) => {
       if (item.members.length >= res.members.length) {
         // 모든 멤버가 선택한 날짜
-        allPickDate.push(item.date);
+        allPickDate.push(item);
       } else {
         // 모든 멤버가 선택한 날짜가 없을 경우
         manyPickDate.push(item);
