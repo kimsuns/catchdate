@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getMoimApi } from "../api/api";
 import TheDay from "./components/TheDay";
+import Button from "../components/Button/Button";
 // allPickDate 날짜
 // 67821836b095e13967864d9b
 
@@ -47,31 +48,14 @@ export default function MoimTheDay() {
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
         모임 날짜 확인하기
       </header>
-      <main className="flex-1 overflow-y-auto flex-col  items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
+      <main className="flex-1 overflow-y-auto flex-col items-center p-6 justify-center self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
         <div className="font-bold text-[18px] text-center uppercase mb-4 text-[#3a8bb5]">
           {moimData.title}
         </div>
-        <div>
+        <div className="w-full p-[20px] bg-white">
           {moimData.allPickDate.length >= 1 ? (
             <div>
-              <div>우리가 Pick 한 날짜</div>
-              <TheDay date={moimData.allPickDate[0]} time={moimData.time} />
-              <div className="flex gap-2 font-bold">
-                참여 멤버 :
-                {moimData.members.map((item, index) => (
-                  <div key={index}>
-                    <span className="text-[#3a8bb5]">{item.name}</span>
-                    {index !== moimData.members.length - 1 && ","}
-                  </div>
-                ))}
-              </div>
-
-              {/* {moimData.allPickDate.map((item) => (
-                <div>
-                  <TheDay date={new Date()}/>
-                  {new Date(item).toLocaleDateString()}
-                </div>
-              ))} */}
+              <TheDay data={moimData.allPickDate[0]} time={moimData.time} />
             </div>
           ) : (
             <div>
@@ -97,9 +81,9 @@ export default function MoimTheDay() {
           )}
         </div>
       </main>
-      <footer>
-        <button>이미지 저장</button>
-        <button>공유하기</button>
+      <footer className="flex w-full gap-5">
+        <Button>이미지 저장</Button>
+        <Button>공유하기</Button>
       </footer>
     </div>
   );
