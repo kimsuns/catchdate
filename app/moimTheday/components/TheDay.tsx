@@ -5,21 +5,14 @@ import BorderBox from "./BorderBox";
 interface TheDay {
   data: MoimPickDateType;
   time: string;
-  isAllPick: boolean;
   noJoin?: string[];
 }
-export default function TheDay({
-  data,
-  time,
-  isAllPick,
-  noJoin = undefined,
-}: TheDay) {
+export default function TheDay({ data, time, noJoin = undefined }: TheDay) {
   console.log("불참멤버", noJoin);
   return (
     <div className=" w-full h-full flex flex-col gap-7">
       <BorderBox title={"Pick 날짜"}>
         <TheDayCalendar date={data.date} time={time} />
-        {/* <div className="text-center text-[#3a8bb5] font-bold mt-2">{time}</div> */}
       </BorderBox>
 
       <BorderBox
@@ -49,7 +42,7 @@ export default function TheDay({
       )}
 
       <div className="text-[12px] text-center text-gray-500">
-        {isAllPick
+        {!noJoin
           ? "전원 참석 가능! 🥳"
           : "전원 참석 가능한 날짜를 다시 잡아보세요!"}
       </div>

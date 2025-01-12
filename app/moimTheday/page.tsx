@@ -70,11 +70,7 @@ export default function MoimTheDay() {
         <div className="w-full p-[20px] bg-white">
           {moimData.allPickDate.length >= 1 ? (
             <div>
-              <TheDay
-                data={moimData.allPickDate[0]}
-                time={moimData.time}
-                isAllPick={true}
-              />
+              <TheDay data={moimData.allPickDate[0]} time={moimData.time} />
             </div>
           ) : (
             <div>
@@ -82,7 +78,6 @@ export default function MoimTheDay() {
                 <TheDay
                   data={moimData.topDate[0]}
                   time={moimData.time}
-                  isAllPick={false}
                   noJoin={unableMember}
                 />
               )}
