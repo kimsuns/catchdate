@@ -8,6 +8,7 @@ import { createMoimApi } from "../api/api";
 import { MoimDataType, MoimMemberType } from "../type/type";
 import { useRouter } from "next/navigation";
 import Calendar from "../components/Calendar/Calendar";
+import Input from "./components/Input";
 
 export default function MoimCreate() {
   const router = useRouter();
@@ -201,7 +202,7 @@ export default function MoimCreate() {
       <main className="flex-1 overflow-y-auto flex flex-col p-6 gap-5 self-stretch mt-6 mb-6 rounded-[2px] bg-[#F6F5F2] scrollbar-gutter-stable no-scrollbar">
         <section>
           <Title text="1. 모임명을 입력하세요." />
-          <input
+          <Input
             name="title"
             value={moimData.title}
             onChange={handleInputChange}
@@ -213,14 +214,23 @@ export default function MoimCreate() {
         <section>
           <Title text="2. 참여자를 입력하세요. (최대 10명)" />
           <label>
-            <input
-              name="members"
-              value={memberName}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              placeholder="참여자 이름을 입력하세요."
-            />
-            <button onClick={handleMemberAdd}>추가</button>
+            <div className="flex w-full gap-2">
+              <Input
+                name="members"
+                value={memberName}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                placeholder="참여자 이름을 입력하세요."
+              />
+              <button
+                className={
+                  "bg-gray-300 text-gray-700 text-sm px-2 py-1 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 w-[100px]"
+                }
+                onClick={handleMemberAdd}
+              >
+                추가
+              </button>
+            </div>
           </label>
           <div className="text-[12px] text-red-500">{validData.members}</div>
           <div className="grid grid-cols-2 gap-2 place-items-center">
@@ -240,7 +250,18 @@ export default function MoimCreate() {
         </section>
 
         <section>
-          <Title text="3. 기간을 설정하세요." />
+          <Title text="3. 모임 시간을 입력하세요." />
+          <Input
+            name="time"
+            value={moimData.time}
+            onChange={handleInputChange}
+            placeholder="모임 시간을 입력하세요."
+          />
+
+          <div className="text-[12px] text-red-500">{validData.time}</div>
+        </section>
+        <section>
+          <Title text="4. 기간을 설정하세요." />
           <div className="text-gray-500 text-[10px] ">
             참여자는 해당 기간 내에서 가능한 날짜를 선택하게 됩니다.
           </div>
@@ -261,17 +282,6 @@ export default function MoimCreate() {
               ? moimData.endDate.toLocaleDateString()
               : "종료 날짜"}
           </div>
-        </section>
-
-        <section>
-          <Title text="4. 모임 시간을 입력하세요." />
-          <input
-            name="time"
-            value={moimData.time}
-            onChange={handleInputChange}
-            placeholder="모임 시간을 입력하세요."
-          />
-          <div className="text-[12px] text-red-500">{validData.time}</div>
         </section>
       </main>
       <footer className="flex w-full">
