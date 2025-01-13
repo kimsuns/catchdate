@@ -25,12 +25,12 @@ export default function Calendar({
   const limit = 2;
   const sizeStyles = {
     S: {
-      container: "w-[150px] max-w-[150px] p-1",
-      fontSize: "text-xs mb-1",
-      daySize: "w-4 h-4 text-xs",
+      container: "w-[200px] max-w-[200px] p-1",
+      fontSize: "text-[15px] mb-1",
+      daySize: "w-5 h-5 text-[15px]",
     },
     M: {
-      container: "w-[200px] p-4",
+      container: "w-[250px] p-4",
       fontSize: "text-base mb-4",
       daySize: "w-5 h-5 text-sm",
     },
