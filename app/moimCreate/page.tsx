@@ -89,7 +89,7 @@ export default function MoimCreate() {
     }
 
     // 약속 시간 글자수 제한
-    if (name === "time" && value.length <= 5) {
+    if (name === "time" && value.length <= 8) {
       onUpdateMoimDate(name, value);
     }
 
@@ -191,7 +191,7 @@ export default function MoimCreate() {
   };
 
   return (
-    <div className="flex flex-col items-center h-full font-black">
+    <div className="flex flex-col items-center h-full text-black">
       <header className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
         <Link href={"/"} className="absolute top-0 left-0">
           <img src="/back.svg" alt="뒤로 가기" />
@@ -214,7 +214,7 @@ export default function MoimCreate() {
         <section>
           <Title text="2. 참여자를 입력하세요. (최대 10명)" />
           <label>
-            <div className="flex w-full gap-2">
+            <div className="flex w-full gap-2 mb-2">
               <Input
                 name="members"
                 value={memberName}
@@ -233,7 +233,7 @@ export default function MoimCreate() {
             </div>
           </label>
           <div className="text-[12px] text-red-500">{validData.members}</div>
-          <div className="grid grid-cols-2 gap-2 place-items-center">
+          <div className="grid grid-cols-2 gap-2 place-items-center text-black">
             {membersArray.map((item, index) => (
               <div key={index} className="flex gap-[2px]">
                 {item}
@@ -250,18 +250,7 @@ export default function MoimCreate() {
         </section>
 
         <section>
-          <Title text="3. 모임 시간을 입력하세요." />
-          <Input
-            name="time"
-            value={moimData.time}
-            onChange={handleInputChange}
-            placeholder="모임 시간을 입력하세요."
-          />
-
-          <div className="text-[12px] text-red-500">{validData.time}</div>
-        </section>
-        <section>
-          <Title text="4. 기간을 설정하세요." />
+          <Title text="3. 기간을 설정하세요." />
           <div className="text-gray-500 text-[10px] ">
             참여자는 해당 기간 내에서 가능한 날짜를 선택하게 됩니다.
           </div>
@@ -282,6 +271,17 @@ export default function MoimCreate() {
               ? moimData.endDate.toLocaleDateString()
               : "종료 날짜"}
           </div>
+        </section>
+        <section>
+          <Title text="4. 모임 시간을 입력하세요." />
+          <Input
+            name="time"
+            value={moimData.time}
+            onChange={handleInputChange}
+            placeholder="모임 시간을 입력하세요."
+          />
+
+          <div className="text-[12px] text-red-500">{validData.time}</div>
         </section>
       </main>
       <footer className="flex w-full">

@@ -34,7 +34,7 @@ export default function TheDay({ data, time, noJoin = undefined }: TheDay) {
             {noJoin.map((item, index) => (
               <div key={index} className="">
                 <span className="text-[#3a8bb5]">{item}</span>
-                {index !== data.members.length - 1 && ","}
+                {index !== noJoin.length - 1 && ","}
               </div>
             ))}
           </div>
