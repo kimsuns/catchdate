@@ -20,7 +20,7 @@ export default function SelectDate({
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 font-black">
       <section className="text-center">
         &apos;
         <span className="text-[#3a8bb5] font-bold">
