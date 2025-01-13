@@ -16,11 +16,14 @@ import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
 import { count } from "console";
+import KakaoShareButton from "../components/Button/KakaoShareButton";
 
 // allPickDate 날짜
 // 6783672457130f155f9f9eba
 // 6783c095da34cf3d06be9431
 // 6783c349da34cf3d06be95a7
+
+// 678501c5048afec032016e0e
 
 // topDate 날짜
 // 678367b157130f155f9f9ede
@@ -311,7 +314,7 @@ export default function MoimSelectDate() {
         ) : (
           <div className="flex w-full gap-5">
             <Button onClick={onSelectName}>선택하기</Button>
-            <Button onClick={() => {}}>공유하기</Button>
+            <KakaoShareButton title={moimData.title} />
           </div>
         )}
       </footer>
