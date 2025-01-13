@@ -231,7 +231,7 @@ export default function MoimSelectDate() {
   };
 
   return (
-    <div className="relative flex flex-col items-center h-full font-black">
+    <div className="relative flex flex-col items-center h-full text-black">
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
         모임 날짜 잡기
       </header>
