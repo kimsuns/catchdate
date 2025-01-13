@@ -21,6 +21,7 @@ const eslintConfig = [
           vars: "all", // 모든 선언된 변수를 확인
         },
       ],
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 ];
