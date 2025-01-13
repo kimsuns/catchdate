@@ -63,7 +63,7 @@ export default function MoimTheDay() {
   }, [queryId]);
 
   return (
-    <div className="flex flex-col items-center h-full font-black">
+    <div className="flex flex-col items-center h-full text-black">
       <header className="text-black font-suit text-[28px] font-semibold leading-none">
         캐치데이트 날짜 확인
       </header>
