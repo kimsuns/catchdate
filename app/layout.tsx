@@ -3,6 +3,8 @@ import "./globals.css";
 import KakaoScript from "./KakaoScript";
 import { Suspense } from "react";
 import TextWithBounce from "./components/Animation/TextWithBounce";
+import dynamic from "next/dynamic";
+import { domAnimation, LazyMotion } from "framer-motion";
 
 declare global {
   interface Window {
@@ -31,10 +33,8 @@ export default function RootLayout({
       >
         <div className="w-[375px] h-[667px] bg-white border border-gray-300 p-6 overflow-hidden">
           <KakaoScript />
-          <Suspense
-            fallback={<TextWithBounce text="모임 날짜를 생성하고 있어요!" />}
-          >
-            {children}
+          <Suspense fallback={"모임 날짜를 생성하고 있어요!"}>
+            <LazyMotion features={domAnimation}>{children}</LazyMotion>
           </Suspense>
         </div>
       </body>
