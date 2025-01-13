@@ -2,7 +2,7 @@
 
 import Button from "./Button";
 
-export default function KakaoShareButton({ title }: string) {
+export default function KakaoShareButton({ title }: { title: string }) {
   const handleShearToKakao = () => {
     const { Kakao, location } = window;
 
@@ -10,7 +10,7 @@ export default function KakaoShareButton({ title }: string) {
       objectType: "feed",
       content: {
         title: "캐치데이트로 모임 날짜 잡자!",
-        description: `${title}모임 날짜 잡으러 가기기!`,
+        description: `${title}모임 날짜 잡으러 가기!`,
         imageUrl: "",
         imageWidth: 100,
         imageHeight: 100,
@@ -33,13 +33,16 @@ export default function KakaoShareButton({ title }: string) {
   };
 
   return (
-    <Button onClick={handleShearToKakao}>
+    <Button
+      onClick={handleShearToKakao}
+      className="bg-[#D4C200] text-white hover:bg-[#FFEB00] hover:text-black"
+    >
       <img
         src="/images/kakaoIcon.png"
         alt="카카오 공유하기"
         className="w-6 h-6"
       />
-      카카오 공유하기
+      공유하기
     </Button>
   );
 }
