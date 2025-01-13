@@ -1,8 +1,8 @@
 import axios from "axios";
 import { MoimDataType, MoimMemberType, MoimPickDateType } from "../type/type";
 
-const BASE_URL = "http://localhost:5000/api/moim";
-// const BASE_URL = `${process.env.NEXT_PUBLIC_CATCHDATE_API_URL}/api/moim`;
+// const BASE_URL = "http://localhost:5000/api/moim";
+const BASE_URL = `${process.env.NEXT_PUBLIC_CATCHDATE_API_URL}/api/moim`;
 
 // 모임 조회
 export const getMoimApi = async (id: string) => {

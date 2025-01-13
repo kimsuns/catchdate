@@ -20,8 +20,8 @@ export default function Test() {
   const handleApi = async () => {
     try {
       // const res = await getMoimApi("6780ee62bf56c026c1d91944");
-      const res = await updateMoimStatusApi("678126c9d1f6eae9c04662a4");
-      // const res = await testApi();
+      // const res = await updateMoimStatusApi("678126c9d1f6eae9c04662a4");
+      const res = await testApi();
       console.log("응답", res);
     } catch (error) {
       console.error(error);
