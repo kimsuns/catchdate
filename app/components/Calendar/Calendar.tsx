@@ -19,8 +19,8 @@ export default function Calendar({
   onDateSelect,
 }: CalendarProps) {
   const weekDays = {
-    kor: ["월", "화", "수", "목", "금", "토", "일"],
-    eng: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    kor: ["일", "월", "화", "수", "목", "금", "토"],
+    eng: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
   };
   const limit = 2;
   const sizeStyles = {
@@ -146,8 +146,10 @@ export default function Calendar({
 
     // 이전 달 날짜 계산
     for (let i = 0; i < firstWeekday; i++) {
+      const preDate = new Date(firstDay);
+      preDate.setDate(firstDay.getDate() - (i + 1));
       calendarDays.push({
-        date: new Date(firstDay.setDate(firstDay.getDate() - 1)),
+        date: preDate,
         isDisabled: true, // 클릭 불가능
       });
     }
@@ -157,7 +159,7 @@ export default function Calendar({
       const date = new Date(
         currentMonth.getFullYear(),
         currentMonth.getMonth(),
-        i
+        i + 1
       );
       calendarDays.push({
         date,
@@ -169,8 +171,11 @@ export default function Calendar({
     // 다음 달 날짜 계산
     const remainingDays = 35 - calendarDays.length; // 총 5주(35칸)을 채우기 위한 나머지 날짜
     for (let i = 1; i <= remainingDays; i++) {
+      const nextDate = new Date(lastDay);
+      nextDate.setDate(lastDay.getDate() + i);
+
       calendarDays.push({
-        date: new Date(lastDay.setDate(lastDay.getDate() + 1)),
+        date: nextDate,
         isDisabled: true,
       });
     }
