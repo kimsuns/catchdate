@@ -27,7 +27,7 @@ export default function SelectName({
   console.log("상태 정보", status);
 
   return (
-    <div className="flex flex-col gap-10 items-center">
+    <div className="flex flex-col gap-10 items-center font-black">
       <div className="text-center">
         {status === "completed" ? (
           <div className="flex flex-col">

@@ -185,7 +185,7 @@ export default function Calendar({
   const calendarDays = baseCalendar();
 
   return (
-    <div className={`max-w-md mx-auto ${style.container}`}>
+    <div className={`max-w-md mx-auto font-black ${style.container}`}>
       <section
         className={`flex justify-between items-center ${style.fontSize}`}
       >
