@@ -10,7 +10,7 @@ interface TheDay {
 export default function TheDay({ data, time, noJoin = undefined }: TheDay) {
   console.log("불참멤버", noJoin);
   return (
-    <div className=" w-full flex flex-col gap-7 font-black">
+    <div className=" w-full flex flex-col gap-7 text-black">
       <BorderBox title={"Pick 날짜"}>
         <TheDayCalendar date={data.date} time={time} />
       </BorderBox>
