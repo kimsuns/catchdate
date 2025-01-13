@@ -190,7 +190,7 @@ export default function MoimCreate() {
   };
 
   return (
-    <div className="flex flex-col items-center h-full">
+    <div className="flex flex-col items-center h-full font-black">
       <header className="relative flex text-black font-suit w-full items-center justify-center text-[28px] font-semibold leading-none">
         <Link href={"/"} className="absolute top-0 left-0">
           <img src="/back.svg" alt="뒤로 가기" />
