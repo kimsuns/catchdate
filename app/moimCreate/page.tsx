@@ -18,8 +18,8 @@ export default function MoimCreate() {
     startDate: null,
     endDate: null,
     time: "",
-    pickDate: [],
-    top3: [],
+    allPickDate: [],
+    topDate: [],
   });
 
   const [membersArray, setMembersArray] = useState<string[]>([]);
@@ -93,7 +93,7 @@ export default function MoimCreate() {
     }
 
     // 모임 참여자 이름 글자수 제한
-    if (name === "members" && value !== null && value.length <= 4) {
+    if (name === "members" && value !== null && value.length <= 3) {
       setMemberName(value);
     }
   };
@@ -176,14 +176,14 @@ export default function MoimCreate() {
         choose: false,
       }));
 
-      setMoimData((prev) => {
-        const updateData = {
-          ...prev,
-          members: fixMember,
-        };
-        onCreateMoim(updateData);
-        return updateData;
-      });
+      const updateData = {
+        ...moimData,
+        members: fixMember,
+      };
+
+      setMoimData(updateData);
+
+      onCreateMoim(updateData);
 
       console.log("api 보내자", moimData);
     }

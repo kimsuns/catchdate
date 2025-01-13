@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import Calendar from "../components/Calendar/Calendar";
 import { useModal } from "../hooks/useModal/useModal";
+import { getMoimApi, testApi, updateMoimStatusApi } from "../api/api";
 
 export default function Test() {
   const { Modal, openModal, closeModal } = useModal();
@@ -15,18 +16,22 @@ export default function Test() {
   const handleDateSelect = (dates: Date[]) => {
     setSelectDates(dates);
   };
+
+  const handleApi = async () => {
+    try {
+      // const res = await getMoimApi("6780ee62bf56c026c1d91944");
+      // const res = await updateMoimStatusApi("678126c9d1f6eae9c04662a4");
+      const res = await testApi();
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="w-full h-full">
       테스트 페이지
-      {/* <button onClick={openModal}>모달 오픈</button>
-      <Modal>
-        <div className="font-bold">날짜 선택 완료</div>
-        <div>
-          <span>선택 완료시 날짜를 변경할 수 없습니다.</span>
-          <span>정말 선택 완료하실건가요?</span>
-        </div>
-      </Modal> */}
-      <div className="w-[200px]">
+      <button onClick={handleApi}>테스트api</button>
+      {/* <div className="w-[200px]">
         <Calendar
           startDate={startDate}
           endDate={endDate}
@@ -40,7 +45,7 @@ export default function Test() {
         endDate={endDate}
         size="L"
         onDateSelect={handleDateSelect}
-      />
+      /> */}
     </div>
   );
 }

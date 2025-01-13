@@ -1,40 +1,41 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { getMoimApi, updateMoimApi } from "../api/api";
+import {
+  getMoimApi,
+  updateMoimMemberApi,
+  updateMoimPickDateApi,
+  updateMoimStatusApi,
+  updateMoimTopDateApi,
+} from "../api/api";
 import { useSearchParams } from "next/navigation";
 import SelectDate from "./components/SelectDate";
 import SelectName from "./components/SelectName";
-import { MoimDataType, MoimMemberType } from "../type/type";
+import { MoimDataType, MoimMemberType, MoimPickDateType } from "../type/type";
 import Button from "../components/Button/Button";
 import { useModal } from "../hooks/useModal/useModal";
 import { useRouter } from "next/navigation";
+import { count } from "console";
 
-// 676d1181eb17bca63e11c0e5
+// allPickDate 날짜
+// 6783672457130f155f9f9eba
+// 6783c095da34cf3d06be9431
+// 6783c349da34cf3d06be95a7
 
-// 내용 꽉 찬 예시시
-// 6777f0c59fe275be55856418
-
-// 날짜 생성
-// 677df17429403c63c51d695b
-// 677fb091ffadeb5ea00dd220
-// 677fe1f73041b3f32072b966
-
-interface MoimData extends MoimDataType {
-  _id: string;
-}
+// topDate 날짜
+// 678367b157130f155f9f9ede
+// 6783bfe1da34cf3d06be92f3
 
 export default function MoimSelectDate() {
-  const [moimData, setMoimData] = useState<MoimData>({
-    _id: "",
+  const [moimData, setMoimData] = useState<MoimDataType>({
     title: "",
     status: "ready",
     members: [],
     startDate: null,
     endDate: null,
     time: "",
-    pickDate: [],
-    top3: [],
+    allPickDate: [],
+    topDate: [],
   });
   const [onEditDate, setOnEditDate] = useState(false);
   // const [onSelectAll, setOnSelectAll] = useState(false);
@@ -54,6 +55,94 @@ export default function MoimSelectDate() {
     setQueryId(id);
   }, []);
 
+  const handleMoimPickDate = async (data: MoimPickDateType[]) => {
+    try {
+      const res = await updateMoimPickDateApi(queryId as string, data);
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleMoimTopDate = async (data: MoimPickDateType[]) => {
+    try {
+      const res = await updateMoimTopDateApi(queryId as string, data);
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getPickDate = (res: MoimDataType) => {
+    // 멤버가 선택한 날짜를 배열의 객체에 {date, count, member} 하나씩 넣기
+    const allDates: MoimPickDateType[] = [];
+
+    res.members.forEach((member) => {
+      if (member.dates.length > 0) {
+        member.dates.forEach((date) => {
+          const existDate: MoimPickDateType | undefined = allDates.find(
+            (data) => data.date === date
+          );
+
+          // 중복되는 날짜가 있을 경우, {count: ++, merber: []}
+          if (existDate) {
+            existDate.count += 1;
+            existDate.members.push(member.name);
+          } else {
+            allDates.push({
+              date,
+              count: 1,
+              members: [member.name],
+            });
+          }
+        });
+      }
+    });
+
+    // count 높은 순으로 정렬
+    // const topDates = allDates.sort((a, b) => b.count - a.count).slice(0, 5);
+    const topDates = allDates
+      .sort((a, b) => {
+        if (b.count === a.count) {
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        }
+        return b.count - a.count;
+      })
+      .slice(0, 3);
+
+    const allPickDate: MoimPickDateType[] = [];
+    const manyPickDate: MoimPickDateType[] = [];
+
+    topDates.map((item) => {
+      if (item.members.length >= res.members.length) {
+        // 모든 멤버가 선택한 날짜
+        allPickDate.push(item);
+      } else {
+        // 모든 멤버가 선택한 날짜가 없을 경우
+        manyPickDate.push(item);
+      }
+    });
+
+    // 상위 5개 뽑기
+    console.log("상위 5개 날짜", topDates);
+    console.log("모든 멤버가 선택한 날짜", allPickDate);
+    console.log("제일 많은 멤버가 선택한 날짜", manyPickDate);
+
+    if (allPickDate.length >= 1) {
+      handleMoimPickDate(allPickDate);
+    } else {
+      handleMoimTopDate(manyPickDate);
+    }
+  };
+
+  const handleMoimStatus = async () => {
+    try {
+      const res = await updateMoimStatusApi(queryId as string);
+      console.log("응답", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const getMoimData = async () => {
     try {
       const res = await getMoimApi(queryId as string);
@@ -65,12 +154,15 @@ export default function MoimSelectDate() {
 
       if (!hasUnchooseMember) {
         console.log("모든 멤버가 선택했습니다.");
+        getPickDate(res);
         // setOnSelectAll(true);
+        handleMoimStatus();
         setMoimData((prev) => {
-          const updateData: MoimData = {
+          const updateData: MoimDataType = {
             ...prev,
             status: "completed",
           };
+
           return updateData;
         });
       }
@@ -109,7 +201,7 @@ export default function MoimSelectDate() {
 
   const onUpdateMoim = async () => {
     try {
-      const res = await updateMoimApi(queryId as string, selectMember);
+      const res = await updateMoimMemberApi(queryId as string, selectMember);
       if (res?.status === 200) {
         getMoimData();
       }

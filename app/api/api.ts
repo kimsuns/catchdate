@@ -1,13 +1,13 @@
 import axios from "axios";
-import { MoimDataType, MoimMemberType } from "../type/type";
+import { MoimDataType, MoimMemberType, MoimPickDateType } from "../type/type";
 
-// const BASE_URL = "http://localhost:5000/api";
-const BASE_URL = `${process.env.NEXT_PUBLIC_CATCHDATE_API_URL}/api`;
+// const BASE_URL = "http://localhost:5000/api/moim";
+const BASE_URL = `${process.env.NEXT_PUBLIC_CATCHDATE_API_URL}/api/moim`;
 
 // 모임 조회
 export const getMoimApi = async (id: string) => {
   try {
-    const res = await axios.get(`${BASE_URL}/moim/${id}`);
+    const res = await axios.get(`${BASE_URL}/${id}`);
     console.log("모임 조회", res);
     return res.data;
   } catch (error) {
@@ -19,7 +19,7 @@ export const getMoimApi = async (id: string) => {
 export const createMoimApi = async (data: MoimDataType) => {
   console.log("베이스 유알엘", BASE_URL);
   try {
-    const res = await axios.post(`${BASE_URL}/moim`, data);
+    const res = await axios.post(`${BASE_URL}`, data);
     console.log("모임 생성 성공", res);
     return res.data;
   } catch (error) {
@@ -27,11 +27,50 @@ export const createMoimApi = async (data: MoimDataType) => {
   }
 };
 
-// 모임 업데이트
-export const updateMoimApi = async (id: string, data: MoimMemberType) => {
+// 모임 멤버 업데이트
+export const updateMoimMemberApi = async (id: string, data: MoimMemberType) => {
   try {
-    const res = await axios.put(`${BASE_URL}/moim/${id}`, data);
+    const res = await axios.put(`${BASE_URL}/member/${id}`, data);
     console.log("모임 멤버 업데이트 성공", res);
+    return res;
+  } catch (error) {
+    console.error("모임 업데이트 실패", error);
+  }
+};
+
+// 모임 상태 업데이트
+export const updateMoimStatusApi = async (id: string) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/status/${id}`);
+    console.log("모임 상태 업데이트 성공", res);
+    return res;
+  } catch (error) {
+    console.error("모임 업데이트 실패", error);
+  }
+};
+
+// 모임 Pick 날짜 업데이트
+export const updateMoimPickDateApi = async (
+  id: string,
+  data: MoimPickDateType[]
+) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/pick/${id}`, data);
+    console.log("모임 Pick 업데이트 성공", res);
+    return res;
+  } catch (error) {
+    console.error("모임 업데이트 실패", error);
+  }
+};
+
+// 모임 top 날짜 업데이트
+export const updateMoimTopDateApi = async (
+  id: string,
+  data: MoimPickDateType[]
+) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/top/${id}`, data);
+    console.log("모임 Top 날짜 업데이트 성공", res);
     return res;
   } catch (error) {
     console.error("모임 업데이트 실패", error);

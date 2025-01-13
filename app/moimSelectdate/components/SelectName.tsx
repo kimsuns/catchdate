@@ -24,6 +24,7 @@ export default function SelectName({
   };
 
   console.log("멤버 정보", member);
+  console.log("상태 정보", status);
 
   return (
     <div className="flex flex-col gap-10 items-center">

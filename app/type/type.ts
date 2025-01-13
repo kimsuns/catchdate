@@ -5,8 +5,8 @@ export interface MoimDataType {
   startDate: Date | null;
   endDate: Date | null;
   time: string;
-  pickDate: Date[];
-  top3: Date[];
+  allPickDate: MoimPickDateType[];
+  topDate: MoimPickDateType[];
 }
 
 export interface MoimMemberType {
@@ -14,4 +14,10 @@ export interface MoimMemberType {
   name: string;
   dates: Date[];
   choose: boolean;
+}
+
+export interface MoimPickDateType {
+  date: Date;
+  count: number;
+  members: string[];
 }

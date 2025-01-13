@@ -13,6 +13,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+        <title>캐치데이트</title>
+      </head>
       <body
         className={`flex items-center justify-center w-screen h-screen bg-gray-100`}
       >
