@@ -11,8 +11,9 @@
 이젠 모임 멤버에게 일일이 물어보지 말고 '캐치데이트' 하는건 어떨까요?
 <br>
 <br>
+<br>
 
-## > 기술 스택
+## 기술 스택
 
 ### ✔️Front-end
 
@@ -20,7 +21,7 @@
 
 <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white" style="height: 30px">
 <img src="https://img.shields.io/badge/typescript-blue?style=for-the-badge&logo=typescript&logoColor=white"style="height: 30px;">
-<img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=flat-square&logo=Tailwind CSS&logoColor=white"style="height: 30px;">
+<img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=for-the-badge&logo=Tailwind CSS&logoColor=white"style="height: 30px;">
 </p>
 
 ### ✔️Back-end
@@ -33,7 +34,7 @@
   <br>
   <br>
 
-## > 배포 링크
+## 배포 링크
 
 <a href="https://catch-date.vercel.app/">
 캐치데이트 바로가기 
