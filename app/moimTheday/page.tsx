@@ -5,7 +5,7 @@ import { getMoimApi } from "../api/api";
 import TheDay from "./components/TheDay";
 import Button from "../components/Button/Button";
 import { MoimDataType } from "../type/type";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import SaveImageButton from "../components/Button/SaveImageButton";
 import KakaoShareButton from "../components/Button/KakaoShareButton";
 // allPickDate 날짜
@@ -30,7 +30,7 @@ export default function MoimTheDay() {
   const router = useRouter();
 
   useEffect(() => {
-    const searchParams = useSearchParams();
+    const searchParams = new URLSearchParams(window.location.search);
     const id = searchParams.get("id");
     setQueryId(id);
   }, []);

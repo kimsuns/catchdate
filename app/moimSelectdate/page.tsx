@@ -53,7 +53,7 @@ export default function MoimSelectDate() {
   const router = useRouter();
 
   useEffect(() => {
-    const searchParams = useSearchParams();
+    const searchParams = new URLSearchParams(window.location.search);
     const id = searchParams.get("id");
     setQueryId(id);
   }, []);
