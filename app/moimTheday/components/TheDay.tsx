@@ -2,17 +2,38 @@ import { MoimPickDateType } from "@/app/type/type";
 import TheDayCalendar from "./TheDayCalendar";
 import BorderBox from "./BorderBox";
 
+// http://localhost:3000/moimTheday?id=67ca739c70fe5e769c9c0088
+
 interface TheDay {
   data: MoimPickDateType;
   time: string;
+  allDate: MoimPickDateType[];
   noJoin?: string[];
 }
-export default function TheDay({ data, time, noJoin = undefined }: TheDay) {
+export default function TheDay({
+  data,
+  time,
+  allDate,
+  noJoin = undefined,
+}: TheDay) {
   console.log("불참멤버", noJoin);
   return (
     <div className=" w-full flex flex-col gap-7 text-black">
       <BorderBox title={"Pick 날짜"}>
         <TheDayCalendar date={data.date} time={time} />
+      </BorderBox>
+      <BorderBox title="All day">
+        {allDate.map((item, index) => {
+          console.log("지금 나와라", item.date);
+          const dateObj = new Date(item.date);
+
+          return (
+            <div key={index} className="text-xs">
+              <div>{dateObj.toLocaleDateString()}</div>
+              <div className="text-blue-500">{item.members}</div>
+            </div>
+          );
+        })}
       </BorderBox>
 
       <BorderBox
